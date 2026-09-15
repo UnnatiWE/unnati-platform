@@ -1,0 +1,212 @@
+[
+  {
+    "skill_name": "Tailoring",
+    "category": "Practical Skills",
+    "description": "Learn basic stitching, garment making and sewing techniques for employment or home-based work.",
+    "learning_link": "https://www.youtube.com/results?search_query=tailoring+course+for+beginners"
+  },
+  {
+    "skill_name": "Embroidery",
+    "category": "Practical Skills",
+    "description": "Learn decorative stitching techniques to create attractive designs on clothes and fabrics.",
+    "learning_link": "https://www.youtube.com/results?search_query=embroidery+for+beginners"
+  },
+  {
+    "skill_name": "Handicraft",
+    "category": "Practical Skills",
+    "description": "Learn to create useful and decorative handmade products using simple craft techniques and materials.",
+    "learning_link": "https://www.youtube.com/results?search_query=handicraft+making+for+beginners+India"
+  },
+  {
+    "skill_name": "Bag Making",
+    "category": "Practical Skills",
+    "description": "Learn to make cloth, jute and reusable bags that can be sold as handmade products.",
+    "learning_link": "https://www.youtube.com/results?search_query=bag+making+for+beginners+India"
+  },
+  {
+    "skill_name": "Candle Making",
+    "category": "Practical Skills",
+    "description": "Learn how to make decorative and scented candles for a small home-based business.",
+    "learning_link": "https://www.youtube.com/results?search_query=candle+making+for+beginners+India"
+  },
+  {
+    "skill_name": "Soap Making",
+    "category": "Practical Skills",
+    "description": "Learn basic handmade soap-making methods and safe handling of materials.",
+    "learning_link": "https://www.youtube.com/results?search_query=soap+making+for+beginners+India"
+  },
+  {
+    "skill_name": "Jewellery Making",
+    "category": "Practical Skills",
+    "description": "Learn to create handmade jewellery using beads, threads, wires and other materials.",
+    "learning_link": "https://www.youtube.com/results?search_query=jewellery+making+for+beginners+India"
+  },
+  {
+    "skill_name": "Painting",
+    "category": "Creative Skills",
+    "description": "Develop painting skills using different techniques and materials for creative work.",
+    "learning_link": "https://www.youtube.com/results?search_query=painting+for+beginners"
+  },
+  {
+    "skill_name": "Pottery",
+    "category": "Creative Skills",
+    "description": "Learn basic clay modelling and pottery techniques to create useful and decorative products.",
+    "learning_link": "https://www.youtube.com/results?search_query=pottery+for+beginners"
+  },
+  {
+    "skill_name": "Floral Decoration",
+    "category": "Creative & Home Business",
+    "description": "Learn flower arrangement and decoration techniques for events and small businesses.",
+    "learning_link": "https://www.youtube.com/results?search_query=flower+decoration+for+beginners"
+  },
+  {
+    "skill_name": "Gift Making",
+    "category": "Creative & Home Business",
+    "description": "Learn to create personalised gift items, hampers and decorative products for customers.",
+    "learning_link": "https://www.youtube.com/results?search_query=handmade+gift+making+for+beginners"
+  },
+  {
+    "skill_name": "Makeup",
+    "category": "Beauty Skills",
+    "description": "Learn basic makeup techniques, product use and professional makeup practices.",
+    "learning_link": "https://www.youtube.com/results?search_query=basic+makeup+course+for+beginners"
+  },
+  {
+    "skill_name": "Hair Styling",
+    "category": "Beauty Skills",
+    "description": "Learn basic hairstyling, hair care and techniques useful for home-based or local beauty services.",
+    "learning_link": "https://www.youtube.com/results?search_query=hair+styling+course+for+beginners"
+  },
+  {
+    "skill_name": "Nail Art",
+    "category": "Beauty Skills",
+    "description": "Learn creative nail decoration techniques that can be offered as a beauty service.",
+    "learning_link": "https://www.youtube.com/results?search_query=nail+art+for+beginners"
+  },
+  {
+    "skill_name": "Skin Care",
+    "category": "Beauty Skills",
+    "description": "Learn basic skincare practices, hygiene and professional skin-care techniques.",
+    "learning_link": "https://www.youtube.com/results?search_query=basic+skin+care+course+for+beginners"
+  },
+  {
+    "skill_name": "Baking",
+    "category": "Food Skills",
+    "description": "Learn baking techniques for cakes, breads, cookies and other products for home businesses.",
+    "learning_link": "https://www.youtube.com/results?search_query=baking+course+for+beginners+India"
+  },
+  {
+    "skill_name": "Cooking",
+    "category": "Food Skills",
+    "description": "Improve cooking skills and learn techniques for preparing different dishes professionally.",
+    "learning_link": "https://www.youtube.com/results?search_query=basic+cooking+skills+for+beginners"
+  },
+  {
+    "skill_name": "Food Processing",
+    "category": "Food Skills",
+    "description": "Learn methods of preparing, preserving and packaging food products for small-scale businesses.",
+    "learning_link": "https://www.youtube.com/results?search_query=food+processing+training+India"
+  },
+  {
+    "skill_name": "Organic Farming",
+    "category": "Agriculture & Livelihood",
+    "description": "Learn natural farming methods, soil care and sustainable techniques for growing crops.",
+    "learning_link": "https://www.youtube.com/results?search_query=organic+farming+for+beginners+India"
+  },
+  {
+    "skill_name": "Dairy Farming",
+    "category": "Agriculture & Livelihood",
+    "description": "Learn basic dairy management, animal care, feeding and hygienic milk production.",
+    "learning_link": "https://www.youtube.com/results?search_query=dairy+farming+training+India"
+  },
+  {
+    "skill_name": "Poultry Farming",
+    "category": "Agriculture & Livelihood",
+    "description": "Learn basic poultry management, feeding, hygiene and small-scale farming practices.",
+    "learning_link": "https://www.youtube.com/results?search_query=poultry+farming+training+India"
+  },
+  {
+    "skill_name": "Teaching & Tutoring",
+    "category": "Care & Education",
+    "description": "Develop teaching and tutoring skills to support children and learners in academic subjects.",
+    "learning_link": "https://www.youtube.com/results?search_query=teaching+skills+for+beginners"
+  },
+  {
+    "skill_name": "Childcare",
+    "category": "Care & Education",
+    "description": "Learn basic childcare, child safety, hygiene and age-appropriate activities.",
+    "learning_link": "https://www.youtube.com/results?search_query=childcare+training+for+beginners"
+  },
+  {
+    "skill_name": "Elderly Care",
+    "category": "Care & Education",
+    "description": "Learn basic caregiving, communication, safety and daily assistance for elderly people.",
+    "learning_link": "https://www.youtube.com/results?search_query=elderly+caregiver+training+basics"
+  },
+  {
+    "skill_name": "Accounting",
+    "category": "Business & Financial Skills",
+    "description": "Learn basic bookkeeping, recording transactions, billing and managing business accounts.",
+    "learning_link": "https://www.youtube.com/results?search_query=basic+accounting+for+beginners"
+  },
+  {
+    "skill_name": "Financial Literacy",
+    "category": "Business & Financial Skills",
+    "description": "Understand saving, budgeting, banking, digital payments, loans and responsible money management.",
+    "learning_link": "https://www.youtube.com/results?search_query=financial+literacy+India+for+beginners"
+  },
+  {
+    "skill_name": "Communication Skills",
+    "category": "Communication & Employability",
+    "description": "Improve speaking, listening, confidence and communication for personal and professional situations.",
+    "learning_link": "https://www.youtube.com/results?search_query=communication+skills+for+beginners"
+  },
+  {
+    "skill_name": "Public Speaking",
+    "category": "Communication & Employability",
+    "description": "Build confidence and learn how to present ideas clearly in front of others.",
+    "learning_link": "https://www.youtube.com/results?search_query=public+speaking+for+beginners"
+  },
+  {
+    "skill_name": "Interview Skills",
+    "category": "Communication & Employability",
+    "description": "Learn how to prepare for interviews, answer common questions and present yourself professionally.",
+    "learning_link": "https://www.youtube.com/results?search_query=interview+skills+for+beginners"
+  },
+  {
+    "skill_name": "English Skills",
+    "category": "Communication & Employability",
+    "description": "Improve everyday English vocabulary, grammar and spoken English for workplace and daily communication.",
+    "learning_link": "https://www.youtube.com/results?search_query=spoken+English+for+beginners+India"
+  },
+  {
+    "skill_name": "Business Planning",
+    "category": "Entrepreneurship & Self-Employment",
+    "description": "Learn how to plan a small home-based business, identify needs, estimate costs and organize the steps to start.",
+    "learning_link": "https://www.youtube.com/results?search_query=business+planning+for+beginners+India"
+  },
+  {
+    "skill_name": "Startup Basics",
+    "category": "Entrepreneurship & Self-Employment",
+    "description": "Understand the basic steps involved in turning a small business idea into a practical home-based venture.",
+    "learning_link": "https://www.youtube.com/results?search_query=startup+basics+for+beginners+India"
+  },
+  {
+    "skill_name": "Market Research",
+    "category": "Entrepreneurship & Self-Employment",
+    "description": "Learn how to understand customers, identify local demand and study similar businesses before starting.",
+    "learning_link": "https://www.youtube.com/results?search_query=market+research+for+beginners+India"
+  },
+  {
+    "skill_name": "Pricing & Costing",
+    "category": "Entrepreneurship & Self-Employment",
+    "description": "Learn how to calculate product costs, set suitable prices and understand basic profit and expenses.",
+    "learning_link": "https://www.youtube.com/results?search_query=pricing+and+costing+for+small+business+India"
+  },
+  {
+    "skill_name": "Business Registration",
+    "category": "Entrepreneurship & Self-Employment",
+    "description": "Learn the basic requirements and steps involved in registering a small business.",
+    "learning_link": "https://www.youtube.com/results?search_query=business+registration+basics+India"
+  }
+]

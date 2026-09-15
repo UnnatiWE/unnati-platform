@@ -1,0 +1,170 @@
+{
+  "collection": "schemes",
+  "documents": {
+    "1": {
+      "name": "Mukhyamantri - Majhi Ladki Bahin Yojana",
+      "category": "Financial Security & Income Support",
+      "government_level": "Maharashtra State",
+      "purpose": "Provides direct financial support to women in Maharashtra to foster economic independence, address basic health and nutritional needs, and elevate their role in family decision-making.",
+      "benefits": "₹1,500 per month deposited directly into the beneficiary's bank account via Direct Benefit Transfer (DBT). Total annual benefit of ₹18,000 per family.",
+      "eligibility": "Resident female of Maharashtra; age 21 to 65 years; applicable to married, widowed, divorced, abandoned, or destitute women, and one unmarried woman per family; family annual income must not exceed ₹2,50,000. Exclusions include taxpayers, permanent government employees, or families owning a 4-wheeler (excluding tractors).",
+      "documents_required": "Aadhaar Card; Domicile Certificate (or 15-year Ration Card / Voter ID / Birth Certificate); Income Certificate (or Yellow/Orange Ration Card); Aadhaar-linked Bank Account Passbook; Self-Declaration Form (Hamipatra) and Passport Photograph.",
+      "application_procedure": "Register on the official Ladki Bahin portal or Nari Shakti Doot App; fill in personal details, address, and bank credentials; upload scanned documents and complete Aadhaar-based OTP verification.",
+      "official_link": "https://ladakibahin.maharashtra.gov.in/"
+    },
+    "2": {
+      "name": "Lek Ladki Yojana",
+      "category": "Girl Child Welfare & Education",
+      "government_level": "Maharashtra State",
+      "purpose": "Promotes the birth, health, and higher education of girl children while working to curb female foeticide and early child marriage across Maharashtra.",
+      "benefits": "Total financial grant of ₹1,01,000 in 5 milestones: ₹5,000 at birth; ₹6,000 on admission to Class 1; ₹7,000 on admission to Class 6; ₹8,000 on admission to Class 11; ₹75,000 on turning 18.",
+      "eligibility": "Girl child born on or after April 1, 2023 in Maharashtra; family must possess a Yellow or Orange Ration Card.",
+      "documents_required": "Birth Certificate of the Girl Child; Parents' Aadhaar Cards; Yellow / Orange Ration Card; Family Income Certificate; Bank Account Passbook of Mother/Child.",
+      "application_procedure": "Submit physical application form through local Anganwadi workers or the Child Development Project Officer (CDPO) at the Gram Panchayat/Urban Ward level.",
+      "official_link": "https://womenchild.maharashtra.gov.in/"
+    },
+    "3": {
+      "name": "Punyashlok Ahilya Devi Holkar Mahila Startup Yojana",
+      "category": "Entrepreneurship & Innovation",
+      "government_level": "Maharashtra State",
+      "purpose": "Provides early-stage financial seed capital, incubation, and business development support to female entrepreneurs leading innovative startups.",
+      "benefits": "Financial assistance, seed funding grants, and low-interest enterprise loans; mentorship access; free incubation access; priority in state government procurement.",
+      "eligibility": "Woman-founded or co-founded startup registered in Maharashtra; must be recognized by DPIIT (Department for Promotion of Industry and Internal Trade).",
+      "documents_required": "Business Registration Certificate & Pitch Deck; DPIIT Recognition Certificate; Founder's Aadhaar & PAN Card; Bank Account Details & Financial Statements.",
+      "application_procedure": "Apply online through the Maharashtra State Innovation Society (MSInS) portal and submit startup credentials for committee review.",
+      "official_link": "https://msins.in/"
+    },
+    "4": {
+      "name": "Mahila Samridhi Yojana (LIDCOM)",
+      "category": "Micro-Finance & Self-Employment",
+      "government_level": "Maharashtra State",
+      "purpose": "Offers low-interest micro-finance loans to marginalized women from targeted backward/Charmakar communities to set up micro-enterprises.",
+      "benefits": "Micro-loans ranging from ₹25,000 to ₹50,000; highly subsidized interest rate of 4% per annum.",
+      "eligibility": "Resident female of Maharashtra belonging to designated backward classes; family annual income under ₹98,000 (Rural) or ₹1,20,000 (Urban).",
+      "documents_required": "Aadhaar Card & Voter ID; Caste Certificate & Income Certificate; Domicile Certificate; Bank Details & Micro-business plan proposal.",
+      "application_procedure": "Obtain application form from the District Office of LIDCOM, fill details, attach documents, and submit offline.",
+      "official_link": "https://www.myscheme.gov.in/schemes/msym"
+    },
+    "5": {
+      "name": "Asmita Yojana",
+      "category": "Menstrual Hygiene & Health",
+      "government_level": "Maharashtra State",
+      "purpose": "Provides heavily subsidized sanitary napkins to rural schoolgirls and women through Self-Help Groups (SHGs) to promote menstrual hygiene.",
+      "benefits": "High-quality sanitary napkin packs provided at ₹5 per pack for rural school girls; heavily discounted rates for rural adult women.",
+      "eligibility": "Female students in rural Zilla Parishad schools aged 11–19 and rural women in Maharashtra.",
+      "documents_required": "School ID Card (for students) / Asmita Card; Aadhaar Card.",
+      "application_procedure": "Eligible school girls receive Asmita Cards via Zilla Parishad schools to purchase subsidized packs from local Anganwadi workers or registered SHGs.",
+      "official_link": "https://csr.wcdcommpune.com/en"
+    },
+    "6": {
+      "name": "Mahila Samman Yojana (MSRTC Travel Concession)",
+      "category": "Public Transport Mobility",
+      "government_level": "Maharashtra State",
+      "purpose": "Provides affordable public transport for all female citizens across urban and rural Maharashtra.",
+      "benefits": "50% discount on ticket fares across all bus categories operated by Maharashtra State Road Transport Corporation (MSRTC).",
+      "eligibility": "All female passengers traveling within Maharashtra state borders.",
+      "documents_required": "Valid Photo ID Proof (Aadhaar Card / Voter ID / Driving License) upon request.",
+      "application_procedure": "Direct discount applied at ticket counters or online MSRTC booking portals upon selecting the female passenger option.",
+      "official_link": "https://www.msrtc.maharashtra.gov.in/"
+    },
+    "7": {
+      "name": "Pradhan Mantri Matru Vandana Yojana (PMMVY)",
+      "category": "Maternity Benefit & Health",
+      "government_level": "Central Government",
+      "purpose": "A conditional cash transfer maternity benefit scheme providing financial support to pregnant women and lactating mothers for wage loss recovery and nutrition.",
+      "benefits": "₹5,000 for the first child, disbursed in 2 installments; ₹6,000 in a single installment for the second child, provided the second child is a girl.",
+      "eligibility": "Pregnant Women and Lactating Mothers (PW&LM) aged 19 years or older; excludes regular employees of Central/State Governments or PSUs.",
+      "documents_required": "Aadhaar Card of Applicant and Husband; Mother-Child Protection (MCP) Card; Aadhaar-linked Bank/Post Office Account Passbook; Child Birth Certificate.",
+      "application_procedure": "Apply online via the PMMVY Portal (pmmvy.wcd.gov.in) or submit Form 1-A offline at nearest Anganwadi Centre / Health Facility.",
+      "official_link": "https://pmmvy.wcd.gov.in/"
+    },
+    "8": {
+      "name": "Pradhan Mantri Ujjwala Yojana (PMUY)",
+      "category": "Clean Energy & Women's Health",
+      "government_level": "Central Government",
+      "purpose": "Provides deposit-free LPG gas connections to women from economically weaker households to protect them from hazardous indoor smoke.",
+      "benefits": "Free deposit-free LPG connection valued at ₹1,600; free first cylinder refill and gas stove; direct targeted financial subsidy on subsequent refill cylinders.",
+      "eligibility": "Female applicant aged 18 years or above; must belong to BPL / SC / ST / Pradhan Mantri Awas Yojana (Gramin) household without an existing LPG connection.",
+      "documents_required": "Aadhaar Card of Applicant and all adult family members; Ration Card / BPL Proof; Bank Account Details (Aadhaar Linked); Address Proof.",
+      "application_procedure": "Submit application online via PMUY portal or visit local LPG distributor (Indane, Bharatgas, HP Gas) with supporting documents.",
+      "official_link": "https://www.pmuy.gov.in/"
+    },
+    "9": {
+      "name": "Lakhpati Didi Scheme",
+      "category": "Livelihood & Micro-Enterprise",
+      "government_level": "Central Government",
+      "purpose": "Empowers women in Self-Help Groups (SHGs) to start sustainable micro-businesses and achieve a target annual household income of at least ₹1,00,000.",
+      "benefits": "Skill training in high-demand trades such as drone operation, LED assembly, tailoring, organic farming, and food processing; access to collateral-free, interest-subsidized micro-credit through SHG networks.",
+      "eligibility": "Active female member of a Self-Help Group (SHG) under National Rural Livelihoods Mission (NRLM) in Maharashtra.",
+      "documents_required": "Aadhaar Card & SHG Membership details; Bank Account details; Income Certificate / BPL details.",
+      "application_procedure": "Contact local Self-Help Group leader or Gram Panchayat NRLM coordinator to enroll in skill training and loan sanctioning.",
+      "official_link": "https://nrlm.gov.in/"
+    },
+    "10": {
+      "name": "Sukanya Samriddhi Yojana (SSY)",
+      "category": "Girl Child Financial Savings",
+      "government_level": "Central Government",
+      "purpose": "A small-deposit savings scheme designed exclusively for girl children to build a dedicated fund for higher education and marriage.",
+      "benefits": "Government-backed interest rate stated in the source as approximately 8.2% p.a.; full tax exemption under Section 80C of the Income Tax Act; partial withdrawal allowed for higher education after the girl reaches age 18.",
+      "eligibility": "Account opened by parent/legal guardian for a girl child under 10 years of age; maximum 2 accounts per family (3 in case of twin girls birth).",
+      "documents_required": "Birth Certificate of the Girl Child; Aadhaar Card & PAN Card of Parent/Guardian; Proof of Residence & Passport Photo.",
+      "application_procedure": "Visit any Post Office branch or authorized commercial bank branch, fill the SSY opening form, and deposit initial amount (minimum ₹250).",
+      "official_link": "https://www.indiapost.gov.in/"
+    },
+    "11": {
+      "name": "Stand-Up India Scheme",
+      "category": "High-Value Women Business Loans",
+      "government_level": "Central Government",
+      "purpose": "Facilitates bank loans for women entrepreneurs setting up greenfield (new) ventures in manufacturing, services, trading, or agriculture-allied activities.",
+      "benefits": "Bank loan amounts ranging from ₹10 Lakhs to ₹1 Crore; composite loan covering working capital and term loan requirements.",
+      "eligibility": "Female entrepreneur aged 18 years or above; enterprise must be a greenfield project; non-individual enterprise must have 51% female shareholding/control.",
+      "documents_required": "Aadhaar, PAN, Voter ID; Project Report & Business Plan; Proof of Business Address & Asset Documents; last 3 years Income Tax Returns if applicable.",
+      "application_procedure": "Apply online on the Stand-Up Mitra portal (standupmitra.in) or visit any commercial bank branch.",
+      "official_link": "https://www.standupmitra.in/"
+    },
+    "12": {
+      "name": "Mahila Samman Savings Certificate (MSSC)",
+      "category": "Financial Savings",
+      "government_level": "Central Government",
+      "purpose": "A small savings initiative for women and girls offering guaranteed fixed returns over a short-term tenure.",
+      "benefits": "Fixed interest rate of 7.5% per annum, compounded quarterly; flexible deposit amount from ₹1,000 up to ₹2,00,000 for a 2-year tenure.",
+      "eligibility": "Any woman individual in her own name or a guardian on behalf of a minor girl.",
+      "documents_required": "Aadhaar Card & PAN Card; Account Opening Form & Passport Photographs.",
+      "application_procedure": "Submit account opening form at nearest Post Office or participating public sector banks.",
+      "official_link": "https://www.indiapost.gov.in/"
+    },
+    "13": {
+      "name": "Mudra Yojana for Women (PMMY)",
+      "category": "Micro Business Funding",
+      "government_level": "Central Government",
+      "purpose": "Provides collateral-free loans to women running micro-enterprises, beauty parlors, tailoring units, small shops, or home businesses.",
+      "benefits": "Collateral-free loans up to ₹10 Lakhs across 3 categories: Shishu up to ₹50,000; Kishor ₹50,000–₹5 Lakhs; Tarun ₹5 Lakhs–₹10 Lakhs. Lower interest concessions may be offered by specific banks for female borrowers.",
+      "eligibility": "Female proprietor/partner running small business enterprises in the non-farm sector.",
+      "documents_required": "Aadhaar Card, Voter ID, PAN; Business Address Proof & Registration/Licence; Bank Statements for the last 6 months.",
+      "application_procedure": "Apply through any commercial bank, RRB, NBFC, or online via UdyamiMitra portal.",
+      "official_link": "https://www.mudra.org.in/"
+    },
+    "14": {
+      "name": "Working Women Hostel Scheme (Sakhi Niwas)",
+      "category": "Safe Housing & Daycare",
+      "government_level": "Central Government",
+      "purpose": "Provides safe, affordable, and conveniently located hostel accommodation with daycare facilities for working women in urban centers.",
+      "benefits": "Safe housing at subsidized monthly rates; daycare/creche facility for children of working mothers.",
+      "eligibility": "Working women (single, widowed, divorced, separated, married) whose spouse/family does not reside in the same city; gross monthly income limit applies and varies by metropolitan vs non-metro city.",
+      "documents_required": "Aadhaar Card & Employment Proof / Salary Slip; Declaration of Income & Application Form.",
+      "application_procedure": "Apply directly to the managing NGO / State Women Development Corporation managing Sakhi Niwas in cities such as Mumbai, Pune, and Nagpur.",
+      "official_link": "https://womenchild.maharashtra.gov.in/"
+    },
+    "15": {
+      "name": "One Stop Centre Scheme (Sakhi)",
+      "category": "Emergency Support & Safety",
+      "government_level": "Central Government",
+      "purpose": "Provides integrated support and assistance under one roof to women affected by violence, distress, or harassment.",
+      "benefits": "24x7 emergency response, temporary shelter, medical assistance, legal aid/counseling, and psychological support.",
+      "eligibility": "Any woman or girl child facing violence, harassment, or severe distress.",
+      "documents_required": "No mandatory documents required for immediate emergency assistance.",
+      "application_procedure": "Contact National Women Helpline (181) or visit nearest District Hospital One Stop Centre directly.",
+      "official_link": "https://wcd.nic.in/"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "category": "👩 Women Helpline",
+    "helpline_name": "Women Helpline",
+    "helpline_number": "181",
+    "purpose": "Women facing violence, harassment, crisis or needing support"
+  },
+  {
+    "category": "👮 Women Police Helpline",
+    "helpline_name": "Women Helpline",
+    "helpline_number": "1091",
+    "purpose": "Police assistance for women in distress"
+  },
+  {
+    "category": "🚨 Emergency",
+    "helpline_name": "Emergency Response Support System",
+    "helpline_number": "112",
+    "purpose": "Police, ambulance, fire and other emergencies"
+  },
+  {
+    "category": "👮 Police",
+    "helpline_name": "Police Emergency",
+    "helpline_number": "100",
+    "purpose": "Police emergency assistance"
+  },
+  {
+    "category": "🧒 Child Helpline",
+    "helpline_name": "Child Helpline",
+    "helpline_number": "1098",
+    "purpose": "Children/girls facing abuse, violence, neglect or needing protection"
+  },
+  {
+    "category": "💻 Cyber Crime",
+    "helpline_name": "National Cyber Crime Helpline",
+    "helpline_number": "1930",
+    "purpose": "Online fraud, financial fraud and cybercrime"
+  },
+  {
+    "category": "🚔 Crime Stopper",
+    "helpline_name": "Crime Stopper",
+    "helpline_number": "1090",
+    "purpose": "Reporting information related to crime"
+  },
+  {
+    "category": "☎️ Maharashtra Citizen Call Centre",
+    "helpline_name": "Citizen Call Centre",
+    "helpline_number": "155300",
+    "purpose": "Government-related citizen assistance"
+  }
+]
