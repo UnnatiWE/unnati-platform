@@ -1,91 +1,142 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
 import {
   collection,
-  getDocs
+  getDocs,
 } from "firebase/firestore";
 
 import { db } from "./firebase";
+import { localized } from "./i18n";
 
 import "./GovernmentSchemes.css";
 
-function GovernmentSchemes() {
+export default function GovernmentSchemes({
+  lang = "en",
+  t,
+  onViewDetails,
+}) {
   const [schemes, setSchemes] = useState([]);
-  const [filteredSchemes, setFilteredSchemes] = useState([]);
-
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
-  const [governmentLevel, setGovernmentLevel] = useState("All");
+  const [governmentLevel, setGovernmentLevel] =
+    useState("All");
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch schemes from Firebase
   useEffect(() => {
-    const fetchSchemes = async () => {
-      try {
-        setLoading(true);
-
-        const querySnapshot = await getDocs(
-          collection(db, "schemes")
+    getDocs(collection(db, "schemes"))
+      .then((snapshot) => {
+        setSchemes(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
         );
-
-        const schemeList = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-
-        setSchemes(schemeList);
-        setFilteredSchemes(schemeList);
-
-      } catch (err) {
-        console.error("🔥 FIREBASE ERROR:", err);
-        console.error("Error code:", err.code);
-        console.error("Error message:", err.message);
-
+      })
+      .catch((e) =>
         setError(
-         `Firebase Error: ${err.code || "unknown"} - ${
-           err.message || "Unable to load government schemes."
-         }`
-        );
-      }
-        finally {
-        setLoading(false);
-      }
-    };
+          `${e.code || "error"}: ${
+            e.message || t.unableSchemes
+          }`
+        )
+      )
+      .finally(() => setLoading(false));
+  }, [t.unableSchemes]);
 
-    fetchSchemes();
-  }, []);
 
-  // Get unique categories
-  const categories = [
-    "All",
-    ...new Set(
-      schemes
-        .map((scheme) => scheme.category)
-        .filter(Boolean)
-    )
-  ];
+  /* ================================
+     CATEGORIES
+  ================================= */
 
-  // Search + filters
-  useEffect(() => {
-    const searchText = search.toLowerCase().trim();
+  const categories = useMemo(
+    () => [
+      "All",
+      ...Array.from(
+        new Set(
+          schemes
+            .map((s) =>
+              localized(
+                s,
+                "category",
+                lang
+              )
+            )
+            .filter(Boolean)
+        )
+      ),
+    ],
+    [schemes, lang]
+  );
 
-    const filtered = schemes.filter((scheme) => {
+
+  /* ================================
+     FILTER
+  ================================= */
+
+  const filtered = useMemo(() => {
+    const q = search
+      .toLowerCase()
+      .trim();
+
+    return schemes.filter((s) => {
+
+      const name = localized(
+        s,
+        "name",
+        lang
+      );
+
+      const cat = localized(
+        s,
+        "category",
+        lang
+      );
+
+      const purpose = localized(
+        s,
+        "purpose",
+        lang
+      );
+
+      const benefits = localized(
+        s,
+        "benefits",
+        lang
+      );
+
+      const government = localized(
+        s,
+        "government_level",
+        lang
+      );
 
       const matchesSearch =
-        !searchText ||
-        scheme.name?.toLowerCase().includes(searchText) ||
-        scheme.category?.toLowerCase().includes(searchText) ||
-        scheme.purpose?.toLowerCase().includes(searchText) ||
-        scheme.benefits?.toLowerCase().includes(searchText);
+        !q ||
+        [
+          name,
+          cat,
+          purpose,
+          benefits,
+        ].some((value) =>
+          String(value || "")
+            .toLowerCase()
+            .includes(q)
+        );
 
       const matchesCategory =
         category === "All" ||
-        scheme.category === category;
+        cat === category;
 
       const matchesGovernment =
         governmentLevel === "All" ||
-        scheme.government_level === governmentLevel;
+        s.government_level ===
+          governmentLevel ||
+        government === governmentLevel;
 
       return (
         matchesSearch &&
@@ -93,15 +144,21 @@ function GovernmentSchemes() {
         matchesGovernment
       );
     });
+  }, [
+    schemes,
+    search,
+    category,
+    governmentLevel,
+    lang,
+  ]);
 
-    setFilteredSchemes(filtered);
-
-  }, [search, category, governmentLevel, schemes]);
 
   return (
     <div className="schemes-page">
 
-      {/* HEADER */}
+      {/* ================================
+          HEADER
+      ================================= */}
 
       <section className="schemes-header">
 
@@ -112,12 +169,11 @@ function GovernmentSchemes() {
           </span>
 
           <h1>
-            Government Schemes
+            {t.schemes}
           </h1>
 
           <p>
-            Discover government schemes and financial
-            support available for women.
+            {t.schemeHero}
           </p>
 
         </div>
@@ -125,7 +181,9 @@ function GovernmentSchemes() {
       </section>
 
 
-      {/* FILTER SECTION */}
+      {/* ================================
+          FILTERS
+      ================================= */}
 
       <section className="filter-section">
 
@@ -136,10 +194,13 @@ function GovernmentSchemes() {
           </span>
 
           <input
-            type="text"
-            placeholder="Search schemes..."
+            placeholder={
+              t.searchSchemes
+            }
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
           />
 
         </div>
@@ -147,60 +208,60 @@ function GovernmentSchemes() {
 
         <div className="filter-row">
 
-          {/* CATEGORY */}
-
           <select
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) =>
+              setCategory(e.target.value)
+            }
           >
-
-            {categories.map((item) => (
-              <option
-                value={item}
-                key={item}
-              >
-                {item}
-              </option>
-            ))}
-
+            {categories.map(
+              (c) => (
+                <option
+                  key={c}
+                  value={c}
+                >
+                  {c}
+                </option>
+              )
+            )}
           </select>
 
-
-          {/* GOVERNMENT LEVEL */}
 
           <select
             value={governmentLevel}
             onChange={(e) =>
-              setGovernmentLevel(e.target.value)
+              setGovernmentLevel(
+                e.target.value
+              )
             }
           >
 
             <option value="All">
-              All Government
+              {t.allGovernment}
             </option>
 
             <option value="Maharashtra State">
-              Maharashtra State
+              {t.maharashtraState}
             </option>
 
             <option value="Central Government">
-              Central Government
+              {t.centralGovernment}
             </option>
 
           </select>
 
-
-          {/* CLEAR */}
 
           <button
             className="clear-btn"
             onClick={() => {
               setSearch("");
               setCategory("All");
-              setGovernmentLevel("All");
+              setGovernmentLevel(
+                "All"
+              );
             }}
           >
-            Clear Filters
+            {t.clearFilters}
           </button>
 
         </div>
@@ -208,61 +269,58 @@ function GovernmentSchemes() {
       </section>
 
 
-      {/* RESULT COUNT */}
+      {/* ================================
+          RESULTS
+      ================================= */}
 
       <div className="results-info">
 
         <p>
-          Showing{" "}
+          {t.showing}{" "}
           <strong>
-            {filteredSchemes.length}
+            {filtered.length}
           </strong>{" "}
-          schemes
+          {t.schemesWord}
         </p>
 
       </div>
 
 
-      {/* CONTENT */}
+      {/* ================================
+          SCHEMES
+      ================================= */}
 
       <section className="schemes-container">
 
         {loading && (
-
           <div className="loading">
 
             <div className="spinner"></div>
 
             <p>
-              Loading government schemes...
+              {t.loading}...
             </p>
 
           </div>
-
         )}
 
 
         {error && !loading && (
-
           <div className="error-message">
 
             <h3>
-              Something went wrong
+              {t.somethingWrong}
             </h3>
 
-            <p>
-              {error}
-            </p>
+            <p>{error}</p>
 
           </div>
-
         )}
 
 
         {!loading &&
           !error &&
-          filteredSchemes.length === 0 && (
-
+          filtered.length === 0 && (
             <div className="no-results">
 
               <div className="no-results-icon">
@@ -270,34 +328,38 @@ function GovernmentSchemes() {
               </div>
 
               <h3>
-                No schemes found
+                {t.noSchemes}
               </h3>
 
               <p>
-                Try another search term or category.
+                {t.trySchemeSearch}
               </p>
 
             </div>
-
           )}
 
 
-        {/* SCHEME CARDS */}
-
         {!loading &&
           !error &&
-          filteredSchemes.length > 0 && (
+          filtered.length > 0 && (
 
             <div className="schemes-grid">
 
-              {filteredSchemes.map((scheme) => (
+              {filtered.map(
+                (scheme) => (
 
-                <SchemeCard
-                  key={scheme.id}
-                  scheme={scheme}
-                />
+                  <SchemeCard
+                    key={scheme.id}
+                    scheme={scheme}
+                    lang={lang}
+                    t={t}
+                    onViewDetails={
+                      onViewDetails
+                    }
+                  />
 
-              ))}
+                )
+              )}
 
             </div>
 
@@ -314,40 +376,58 @@ function GovernmentSchemes() {
    SCHEME CARD
 ===================================== */
 
-function SchemeCard({ scheme }) {
-
-  const [expanded, setExpanded] = useState(false);
+function SchemeCard({
+  scheme,
+  lang,
+  t,
+  onViewDetails,
+}) {
 
   return (
-
     <article className="scheme-card">
 
-      {/* CARD HEADER */}
+      {/* CARD TOP */}
 
       <div className="card-top">
 
         <span className="category-badge">
-          {scheme.category}
+          {localized(
+            scheme,
+            "category",
+            lang
+          )}
         </span>
 
         <span className="government-badge">
-          {scheme.government_level}
+          {localized(
+            scheme,
+            "government_level",
+            lang
+          )}
         </span>
 
       </div>
 
 
-      {/* TITLE */}
+      {/* NAME */}
 
       <h2>
-        {scheme.name}
+        {localized(
+          scheme,
+          "name",
+          lang
+        )}
       </h2>
 
 
       {/* PURPOSE */}
 
       <p className="purpose">
-        {scheme.purpose}
+        {localized(
+          scheme,
+          "purpose",
+          lang
+        )}
       </p>
 
 
@@ -356,63 +436,18 @@ function SchemeCard({ scheme }) {
       <div className="info-block">
 
         <h4>
-          Benefits
+          {t.benefits}
         </h4>
 
         <p>
-          {scheme.benefits}
+          {localized(
+            scheme,
+            "benefits",
+            lang
+          )}
         </p>
 
       </div>
-
-
-      {/* EXPANDED CONTENT */}
-
-      {expanded && (
-
-        <div className="expanded-content">
-
-          <div className="info-block">
-
-            <h4>
-              Eligibility
-            </h4>
-
-            <p>
-              {scheme.eligibility}
-            </p>
-
-          </div>
-
-
-          <div className="info-block">
-
-            <h4>
-              Documents Required
-            </h4>
-
-            <p>
-              {scheme.documents_required}
-            </p>
-
-          </div>
-
-
-          <div className="info-block">
-
-            <h4>
-              How to Apply
-            </h4>
-
-            <p>
-              {scheme.application_procedure}
-            </p>
-
-          </div>
-
-        </div>
-
-      )}
 
 
       {/* BUTTONS */}
@@ -422,12 +457,10 @@ function SchemeCard({ scheme }) {
         <button
           className="details-btn"
           onClick={() =>
-            setExpanded(!expanded)
+            onViewDetails(scheme)
           }
         >
-          {expanded
-            ? "Show Less"
-            : "View Details"}
+          {t.viewDetails}
         </button>
 
 
@@ -439,7 +472,7 @@ function SchemeCard({ scheme }) {
             rel="noopener noreferrer"
             className="official-btn"
           >
-            Official Website ↗
+            {t.officialWebsite}
           </a>
 
         )}
@@ -447,8 +480,5 @@ function SchemeCard({ scheme }) {
       </div>
 
     </article>
-
   );
 }
-
-export default GovernmentSchemes;
