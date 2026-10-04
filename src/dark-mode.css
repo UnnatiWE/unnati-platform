@@ -1,0 +1,340 @@
+/* =========================================================
+   UNNATI DARK MODE
+   Imported by App.jsx. Keep the existing styles.css intact.
+   ========================================================= */
+
+body.dark-mode {
+  --unnati-bg: #171717;
+  --unnati-surface: #242424;
+  --unnati-surface-2: #2b2b2b;
+  --unnati-text: #f5f5f5;
+  --unnati-muted: #c2c2c2;
+  --unnati-border: #3d3d3d;
+  --unnati-input: #202020;
+  background: var(--unnati-bg) !important;
+  color: var(--unnati-text) !important;
+}
+
+body.dark-mode,
+body.dark-mode #root {
+  background: var(--unnati-bg) !important;
+  color: var(--unnati-text) !important;
+}
+
+/* Main application surfaces */
+body.dark-mode main,
+body.dark-mode .page,
+body.dark-mode section:not(.schemes-header):not(.hero),
+body.dark-mode .district-section,
+body.dark-mode .features,
+body.dark-mode .journey {
+  background-color: var(--unnati-bg);
+  color: var(--unnati-text);
+}
+
+body.dark-mode header {
+  background: #202020 !important;
+  color: var(--unnati-text) !important;
+  border-bottom: 1px solid var(--unnati-border);
+}
+
+body.dark-mode footer {
+  background: #111111 !important;
+  color: var(--unnati-text) !important;
+  border-top: 1px solid var(--unnati-border);
+}
+
+body.dark-mode .brand,
+body.dark-mode .main-nav button,
+body.dark-mode .header-right button,
+body.dark-mode .text-btn {
+  color: var(--unnati-text);
+}
+
+body.dark-mode .main-nav button.active {
+  color: #ffffff;
+}
+
+/* Theme toggle */
+.theme-toggle {
+  border: 1px solid #ddd;
+  background: #ffffff;
+  color: #3b3b3b;
+  padding: 9px 14px;
+  border-radius: 22px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+}
+
+body.dark-mode .theme-toggle {
+  background: #2b2b2b;
+  color: #ffffff;
+  border-color: #555555;
+}
+
+/* Typography */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+  color: #ffffff;
+}
+
+body.dark-mode p,
+body.dark-mode label,
+body.dark-mode .selected,
+body.dark-mode .results-info p,
+body.dark-mode .firebase-count {
+  color: var(--unnati-muted);
+}
+
+/* Generic cards used by Home/Dashboard */
+body.dark-mode .feature-card,
+body.dark-mode .resource-card,
+body.dark-mode .dashboard-card,
+body.dark-mode .card,
+body.dark-mode article {
+  background: var(--unnati-surface);
+  color: var(--unnati-text);
+  border-color: var(--unnati-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+}
+
+body.dark-mode .feature-card p,
+body.dark-mode .resource-card p,
+body.dark-mode .dashboard-card p,
+body.dark-mode article p {
+  color: var(--unnati-muted);
+}
+
+/* Forms */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea,
+body.dark-mode .language-selector,
+body.dark-mode .district-selector {
+  background: var(--unnati-input) !important;
+  color: #ffffff !important;
+  border-color: #4a4a4a !important;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #929292;
+}
+
+body.dark-mode select option {
+  background: #202020;
+  color: #ffffff;
+}
+
+/* Buttons */
+body.dark-mode .btn.ghost {
+  background: #2b2b2b;
+  color: #ffffff;
+  border-color: #555555;
+}
+
+body.dark-mode .btn.secondary {
+  background: transparent;
+  color: #ffffff;
+  border-color: #777777;
+}
+
+body.dark-mode .text-btn:hover {
+  color: #f3a084;
+}
+
+/* Home hero */
+body.dark-mode .hero {
+  background: linear-gradient(135deg, #242424 0%, #202020 100%);
+  color: #ffffff;
+}
+
+body.dark-mode .hero p,
+body.dark-mode .hero h2 {
+  color: #dddddd;
+}
+
+body.dark-mode .map-placeholder {
+  background: #2a2a2a;
+  color: #ffffff;
+  border-color: #444444;
+}
+
+/* =========================================================
+   GOVERNMENT SCHEMES
+   ========================================================= */
+body.dark-mode .schemes-page {
+  background: #171717 !important;
+  color: #f5f5f5 !important;
+}
+
+body.dark-mode .filter-section,
+body.dark-mode .scheme-card,
+body.dark-mode .no-results,
+body.dark-mode .error-message {
+  background: #242424 !important;
+  color: #f5f5f5 !important;
+  border-color: #3d3d3d !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,.28);
+}
+
+body.dark-mode .search-box,
+body.dark-mode .filter-row select {
+  background: #202020 !important;
+  color: #ffffff !important;
+  border-color: #4a4a4a !important;
+}
+
+body.dark-mode .search-box input {
+  color: #ffffff !important;
+}
+
+body.dark-mode .scheme-card h2 {
+  color: #ffffff !important;
+}
+
+body.dark-mode .purpose,
+body.dark-mode .info-block p,
+body.dark-mode .no-results p,
+body.dark-mode .error-message p {
+  color: #c2c2c2 !important;
+}
+
+body.dark-mode .expanded-content {
+  border-top-color: #3d3d3d;
+}
+
+/* =========================================================
+   SKILLS / SHGs / HELPLINES
+   ========================================================= */
+body.dark-mode .firebase-page {
+  background: #171717 !important;
+  color: #f5f5f5 !important;
+}
+
+body.dark-mode .firebase-hero {
+  background: linear-gradient(135deg, #242424, #202020) !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .firebase-hero h1 {
+  color: #ffffff !important;
+}
+
+body.dark-mode .firebase-hero p,
+body.dark-mode .firebase-count,
+body.dark-mode .firebase-card p {
+  color: #c2c2c2 !important;
+}
+
+body.dark-mode .firebase-filters input,
+body.dark-mode .firebase-filters select {
+  background: #202020 !important;
+  color: #ffffff !important;
+  border-color: #4a4a4a !important;
+}
+
+body.dark-mode .firebase-card,
+body.dark-mode .firebase-state,
+body.dark-mode .firebase-error {
+  background: #242424 !important;
+  color: #f5f5f5 !important;
+  border-color: #3d3d3d !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+}
+
+body.dark-mode .firebase-card h2 {
+  color: #ffffff !important;
+}
+
+body.dark-mode .firebase-note,
+body.dark-mode .firebase-disclaimer {
+  background: #2b2b2b !important;
+  color: #c2c2c2 !important;
+}
+
+/* =========================================================
+   AUTHENTICATION
+   ========================================================= */
+body.dark-mode .modal-backdrop {
+  background: rgba(0, 0, 0, .86) !important;
+}
+
+body.dark-mode .auth-card {
+  background: #242424 !important;
+  color: #ffffff !important;
+  border: 1px solid #3d3d3d;
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+}
+
+body.dark-mode .auth-card h2 {
+  color: #ffffff !important;
+}
+
+body.dark-mode .auth-card p {
+  color: #c2c2c2 !important;
+}
+
+body.dark-mode .auth-card input,
+body.dark-mode .auth-card select {
+  background: #1d1d1d !important;
+  color: #ffffff !important;
+  border-color: #4a4a4a !important;
+}
+
+body.dark-mode .auth-card input::placeholder {
+  color: #929292;
+}
+
+body.dark-mode .auth-card input:disabled {
+  background: #292929 !important;
+  color: #aaaaaa !important;
+}
+
+body.dark-mode .auth-card .error {
+  color: #ff9b9b !important;
+}
+
+/* Dashboard */
+body.dark-mode .dashboard-grid {
+  color: #ffffff;
+}
+
+/* Links */
+body.dark-mode a {
+  color: #f0a184;
+}
+
+/* Smooth theme transition without changing the existing layout */
+body.dark-mode,
+body.dark-mode header,
+body.dark-mode main,
+body.dark-mode footer,
+body.dark-mode .page,
+body.dark-mode .feature-card,
+body.dark-mode .resource-card,
+body.dark-mode .firebase-card,
+body.dark-mode .scheme-card,
+body.dark-mode .filter-section,
+body.dark-mode .auth-card {
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+
+/* Mobile header: keep the toggle usable */
+@media (max-width: 900px) {
+  .theme-toggle {
+    padding: 8px 11px;
+    font-size: 13px;
+  }
+}
