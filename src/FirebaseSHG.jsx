@@ -1,81 +1,367 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from './firebase';
-import './FirebaseResources.css';
+import React, { useEffect, useMemo, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./firebase";
+import "./FirebaseResources.css";
 
-export default function FirebaseSHG() {
+export default function FirebaseSHG({ lang = "en", t }) {
   const [shgs, setShgs] = useState([]);
-  const [search, setSearch] = useState('');
-  const [district, setDistrict] = useState('All');
+  const [search, setSearch] = useState("");
+  const [district, setDistrict] = useState("All");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    async function loadSHGs() {
+    const loadSHGs = async () => {
       try {
-        const snap = await getDocs(collection(db, 'shgs'));
-        setShgs(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-      } catch (err) {
-        console.error('SHG Firebase error:', err);
-        setError(`${err.code || 'error'}: ${err.message || 'Unable to load SHGs.'}`);
+        setLoading(true);
+        setError("");
+
+        const snapshot = await getDocs(collection(db, "shgs"));
+
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setShgs(data);
+      } catch (e) {
+        console.error("Error loading SHGs:", e);
+        setError(
+          `${e.code || "error"}: ${
+            e.message || t.unableShgs || "Unable to load SHGs"
+          }`
+        );
       } finally {
         setLoading(false);
       }
-    }
-    loadSHGs();
-  }, []);
+    };
 
-  const districts = useMemo(() => [
-    'All', ...Array.from(new Set(shgs.map(s => s.district).filter(Boolean))).sort()
-  ], [shgs]);
+    loadSHGs();
+  }, [t.unableShgs]);
+
+  /*
+   * ==========================================
+   * MULTILINGUAL FIELD FUNCTION
+   * ==========================================
+   *
+   * Supports:
+   *
+   * field_en
+   * field_hi
+   * field_mr
+   *
+   * Also supports:
+   *
+   * field_hindi
+   * field_marathi
+   *
+   * And nested format:
+   *
+   * field: {
+   *   en: "...",
+   *   hi: "...",
+   *   mr: "..."
+   * }
+   */
+
+  const getLocalized = (item, field) => {
+    const language = lang || "en";
+
+    // 1. Nested multilingual object
+    if (
+      item[field] &&
+      typeof item[field] === "object" &&
+      !Array.isArray(item[field])
+    ) {
+      return (
+        item[field][language] ||
+        item[field].en ||
+        item[field].hi ||
+        item[field].mr ||
+        ""
+      );
+    }
+
+    // 2. Standard _en / _hi / _mr format
+    const languageField = `${field}_${language}`;
+
+    if (
+      item[languageField] !== undefined &&
+      item[languageField] !== null &&
+      String(item[languageField]).trim() !== ""
+    ) {
+      return item[languageField];
+    }
+
+    // 3. Alternative Hindi / Marathi naming
+    if (language === "hi") {
+      const hindiField = `${field}_hindi`;
+
+      if (
+        item[hindiField] !== undefined &&
+        item[hindiField] !== null &&
+        String(item[hindiField]).trim() !== ""
+      ) {
+        return item[hindiField];
+      }
+    }
+
+    if (language === "mr") {
+      const marathiField = `${field}_marathi`;
+
+      if (
+        item[marathiField] !== undefined &&
+        item[marathiField] !== null &&
+        String(item[marathiField]).trim() !== ""
+      ) {
+        return item[marathiField];
+      }
+    }
+
+    // 4. Base field fallback
+    if (
+      item[field] !== undefined &&
+      item[field] !== null &&
+      typeof item[field] !== "object"
+    ) {
+      return item[field];
+    }
+
+    // 5. English fallback
+    if (
+      item[`${field}_en`] !== undefined &&
+      item[`${field}_en`] !== null
+    ) {
+      return item[`${field}_en`];
+    }
+
+    return "";
+  };
+
+  /*
+   * ==========================================
+   * DISTRICTS
+   * ==========================================
+   */
+
+  const districts = useMemo(() => {
+    const list = shgs
+      .map((s) => getLocalized(s, "district"))
+      .filter(Boolean);
+
+    return ["All", ...Array.from(new Set(list)).sort()];
+  }, [shgs, lang]);
+
+  /*
+   * ==========================================
+   * SEARCH + FILTER
+   * ==========================================
+   */
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
-    return shgs.filter(s => {
-      const haystack = [s.id, s.taluka, s.district, s.division, s.institutional_hub, s.institution_type, s.address, s.key_services, s.products_produced]
-        .map(v => String(v || '').toLowerCase()).join(' ');
-      return (!q || haystack.includes(q)) && (district === 'All' || s.district === district);
+
+    return shgs.filter((s) => {
+      const values = [
+        s.id,
+        getLocalized(s, "taluka"),
+        getLocalized(s, "district"),
+        getLocalized(s, "division"),
+        getLocalized(s, "institutional_hub"),
+        getLocalized(s, "institution_type"),
+        getLocalized(s, "address"),
+        getLocalized(s, "key_services"),
+        getLocalized(s, "products_produced"),
+        getLocalized(s, "contact_person"),
+      ];
+
+      const searchableText = values
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      const currentDistrict = getLocalized(s, "district");
+
+      return (
+        (!q || searchableText.includes(q)) &&
+        (district === "All" || currentDistrict === district)
+      );
     });
-  }, [shgs, search, district]);
+  }, [shgs, search, district, lang]);
+
+  /*
+   * ==========================================
+   * PAGE
+   * ==========================================
+   */
 
   return (
     <section className="firebase-page">
+
+      {/* HERO */}
       <div className="firebase-hero">
-        <span>UNNATI • CONNECT</span>
-        <h1>SHG Finder</h1>
-        <p>Find Self Help Group and women’s livelihood resources by district, taluka and activity.</p>
+        <span>
+          UNNATI • {t.shg}
+        </span>
+
+        <h1>{t.shg}</h1>
+
+        <p>{t.shgHero}</p>
       </div>
 
+      {/* FILTERS */}
       <div className="firebase-filters">
-        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search SHG, taluka, activity..." />
-        <select value={district} onChange={e => setDistrict(e.target.value)}>
-          {districts.map(d => <option key={d}>{d}</option>)}
+
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder={t.searchShg}
+        />
+
+        <select
+          value={district}
+          onChange={(e) => setDistrict(e.target.value)}
+        >
+          {districts.map((d) => (
+            <option key={d} value={d}>
+              {d}
+            </option>
+          ))}
         </select>
-        <button onClick={() => { setSearch(''); setDistrict('All'); }}>Clear</button>
+
+        <button
+          onClick={() => {
+            setSearch("");
+            setDistrict("All");
+          }}
+        >
+          {t.clear}
+        </button>
+
       </div>
 
-      <p className="firebase-count">Showing <b>{filtered.length}</b> SHG records</p>
+      {/* COUNT */}
+      <p className="firebase-count">
+        {t.showing} <b>{filtered.length}</b> {t.shgRecords}
+      </p>
 
-      {loading && <div className="firebase-state">Loading SHGs...</div>}
-      {error && !loading && <div className="firebase-error">Unable to load SHGs.<br />{error}</div>}
-      {!loading && !error && filtered.length === 0 && <div className="firebase-state">No SHGs found. Try another search or district.</div>}
-
-      {!loading && !error && filtered.length > 0 && (
-        <div className="firebase-grid">
-          {filtered.map(shg => (
-            <article className="firebase-card" key={shg.id}>
-              <span className="firebase-badge">{shg.district || 'Maharashtra'}</span>
-              <h2>{shg.institutional_hub || shg.id}</h2>
-              <p><b>Location:</b> {shg.taluka || '—'}, {shg.district || '—'}</p>
-              <p><b>Type:</b> {shg.institution_type || '—'}</p>
-              <p><b>Services:</b> {shg.key_services || '—'}</p>
-              <p><b>Products:</b> {shg.products_produced || '—'}</p>
-              <p><b>Contact:</b> {shg.contact_person || 'Local mission/federation contact'} {shg.phone ? `• ${shg.phone}` : ''}</p>
-              <p className="firebase-note">Please verify SHG contact information with the relevant local authority before contacting an SHG.</p>
-            </article>
-          ))}
+      {/* LOADING */}
+      {loading && (
+        <div className="firebase-state">
+          {t.loading}...
         </div>
       )}
+
+      {/* ERROR */}
+      {error && !loading && (
+        <div className="firebase-error">
+          {t.unableShgs}
+          <br />
+          {error}
+        </div>
+      )}
+
+      {/* NO RESULTS */}
+      {!loading && !error && filtered.length === 0 && (
+        <div className="firebase-state">
+          {t.noShgs}
+        </div>
+      )}
+
+      {/* SHG CARDS */}
+      {!loading && !error && filtered.length > 0 && (
+        <div className="firebase-grid">
+
+          {filtered.map((s) => {
+
+            const name =
+              getLocalized(s, "institutional_hub") ||
+              getLocalized(s, "name") ||
+              s.id;
+
+            const currentDistrict =
+              getLocalized(s, "district") ||
+              t.maharashtra;
+
+            const taluka =
+              getLocalized(s, "taluka") || "—";
+
+            const institutionType =
+              getLocalized(s, "institution_type") || "—";
+
+            const services =
+              getLocalized(s, "key_services") || "—";
+
+            const products =
+              getLocalized(s, "products_produced") || "—";
+
+            const contact =
+              getLocalized(s, "contact_person") ||
+              t.localContact;
+
+            return (
+              <article
+                className="firebase-card"
+                key={s.id}
+              >
+
+                {/* DISTRICT */}
+                <span className="firebase-badge">
+                  {currentDistrict}
+                </span>
+
+                {/* NAME */}
+                <h2>{name}</h2>
+
+                {/* LOCATION */}
+                <p>
+                  <b>{t.location}:</b>{" "}
+                  {taluka}
+                  {taluka !== "—" && currentDistrict
+                    ? `, ${currentDistrict}`
+                    : ""}
+                </p>
+
+                {/* TYPE */}
+                <p>
+                  <b>{t.type}:</b>{" "}
+                  {institutionType}
+                </p>
+
+                {/* SERVICES */}
+                <p>
+                  <b>{t.services}:</b>{" "}
+                  {services}
+                </p>
+
+                {/* PRODUCTS */}
+                <p>
+                  <b>{t.products}:</b>{" "}
+                  {products}
+                </p>
+
+                {/* CONTACT */}
+                <p>
+                  <b>{t.contact}:</b>{" "}
+                  {contact}
+
+                  {s.phone
+                    ? ` • ${s.phone}`
+                    : ""}
+                </p>
+
+                {/* NOTE */}
+                <p className="firebase-note">
+                  {t.verifyShg}
+                </p>
+
+              </article>
+            );
+          })}
+
+        </div>
+      )}
+
     </section>
   );
 }
