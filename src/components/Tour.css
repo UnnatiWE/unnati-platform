@@ -1,0 +1,484 @@
+/* =======================================================
+   UNNATI WEBSITE TOUR & SPOTLIGHT STYLES
+   Maintains UNNATI's signature palette:
+   Primary: #B84F73, Secondary: #E68A6A, Accent: #3E8C8D
+   ======================================================= */
+
+:root {
+  --tour-rose: #B84F73;
+  --tour-coral: #E68A6A;
+  --tour-teal: #3E8C8D;
+  --tour-cream: #F7F3EC;
+  --tour-card: #FFFDFC;
+  --tour-text: #3B3B3B;
+  --tour-muted: #5e5955;
+  --tour-border: #eadfd7;
+}
+
+/* Cutout Backdrop Panels: Dims & blurs only the area outside the target */
+.tour-backdrop-panel {
+  position: fixed;
+  z-index: 9996;
+  background: rgba(18, 12, 16, 0.65);
+  backdrop-filter: blur(2.5px);
+  -webkit-backdrop-filter: blur(2.5px);
+  pointer-events: auto;
+  transition: background-color 0.2s ease;
+}
+
+.tour-backdrop-full {
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Active Element Spotlight Focus Ring (100% Transparent inside, glowing brand border) */
+.tour-focus-frame {
+  position: fixed;
+  z-index: 9998;
+  pointer-events: none;
+  border-radius: 14px;
+  border: 3px solid var(--tour-rose);
+  box-shadow: 0 0 25px rgba(184, 79, 115, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.2);
+  animation: tourFocusPulse 2.4s infinite ease-in-out;
+  box-sizing: border-box;
+  background: transparent !important;
+}
+
+@keyframes tourFocusPulse {
+  0%, 100% {
+    border-color: #B84F73;
+    box-shadow: 0 0 22px rgba(184, 79, 115, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    border-color: #E68A6A;
+    box-shadow: 0 0 32px rgba(230, 138, 106, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Tour Popup Window */
+.tour-popup {
+  position: fixed;
+  z-index: 9999;
+  width: 360px;
+  max-width: calc(100vw - 28px);
+  background: var(--tour-card);
+  color: var(--tour-text);
+  border: 1px solid var(--tour-border);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 20px 50px rgba(25, 15, 20, 0.25), 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "DM Sans", sans-serif;
+  animation: tourPopupEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+@keyframes tourPopupEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Tour Header */
+.tour-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.tour-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--tour-rose);
+  background: rgba(184, 79, 115, 0.12);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.tour-header-badge .tour-icon {
+  font-size: 15px;
+}
+
+.tour-close-btn {
+  background: none;
+  border: none;
+  color: #8b807a;
+  font-size: 22px;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tour-close-btn:hover {
+  color: var(--tour-rose);
+  background: rgba(184, 79, 115, 0.1);
+}
+
+/* Content */
+.tour-title {
+  margin: 0 0 8px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--tour-rose);
+  line-height: 1.3;
+}
+
+.tour-description {
+  margin: 0 0 16px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--tour-muted);
+}
+
+/* Progress bar */
+.tour-progress-wrap {
+  margin-bottom: 18px;
+}
+
+.tour-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: #7d7570;
+  margin-bottom: 6px;
+}
+
+.tour-progress-track {
+  width: 100%;
+  height: 6px;
+  background: #ede3dc;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.tour-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--tour-rose), var(--tour-coral));
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+/* Footer & Buttons */
+.tour-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tour-skip-btn {
+  background: none;
+  border: none;
+  color: #7a706b;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: color 0.2s ease;
+}
+
+.tour-skip-btn:hover {
+  color: var(--tour-rose);
+  text-decoration: underline;
+}
+
+.tour-btn-group {
+  display: flex;
+  gap: 8px;
+}
+
+.tour-btn {
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.tour-btn.tour-btn-back {
+  background: #ffffff;
+  color: #4a4441;
+  border-color: #d8ccc4;
+}
+
+.tour-btn.tour-btn-back:hover:not(:disabled) {
+  background: #f7f3ec;
+  border-color: #c4b5ac;
+}
+
+.tour-btn.tour-btn-back:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.tour-btn.tour-btn-next {
+  background: linear-gradient(135deg, var(--tour-rose), #9d3e60);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(184, 79, 115, 0.35);
+}
+
+.tour-btn.tour-btn-next:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(184, 79, 115, 0.45);
+}
+
+/* Completion Card Screen */
+.tour-completion-card {
+  text-align: center;
+  padding: 10px 4px 6px;
+}
+
+.tour-completion-icon {
+  font-size: 46px;
+  margin-bottom: 12px;
+  display: inline-block;
+  animation: tourCelebrationBounce 0.8s ease;
+}
+
+@keyframes tourCelebrationBounce {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.15); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.tour-completion-card .tour-title {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.tour-completion-card .tour-description {
+  font-size: 15px;
+  margin-bottom: 22px;
+}
+
+.tour-completion-card .tour-btn-next {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 15px;
+}
+
+/* Keyboard hint in tooltip */
+.tour-keyboard-hint {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--tour-border);
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  font-size: 11.5px;
+  color: #8c837e;
+}
+
+.tour-keyboard-hint kbd {
+  background: #ede6df;
+  border: 1px solid #d4c8be;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: inherit;
+  font-size: 10.5px;
+  color: #4a4340;
+}
+
+/* =======================================================
+   DARK MODE ADAPTATION
+   Matches UNNATI's existing dark-mode.css variables
+   ======================================================= */
+
+body.dark-mode .tour-backdrop-panel {
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(2.5px);
+  -webkit-backdrop-filter: blur(2.5px);
+}
+
+body.dark-mode .tour-focus-frame {
+  border-color: var(--tour-rose);
+  box-shadow: 0 0 28px rgba(184, 79, 115, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .tour-popup {
+  background: #242424;
+  color: #f5f5f5;
+  border-color: #3d3d3d;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75);
+}
+
+body.dark-mode .tour-title {
+  color: #ffffff;
+}
+
+body.dark-mode .tour-description {
+  color: #c4c4c4;
+}
+
+body.dark-mode .tour-header-badge {
+  background: rgba(184, 79, 115, 0.25);
+  color: #f48fae;
+}
+
+body.dark-mode .tour-close-btn {
+  color: #999999;
+}
+
+body.dark-mode .tour-close-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .tour-progress-label {
+  color: #a0a0a0;
+}
+
+body.dark-mode .tour-progress-track {
+  background: #333333;
+}
+
+body.dark-mode .tour-btn.tour-btn-back {
+  background: #2b2b2b;
+  color: #e0e0e0;
+  border-color: #444444;
+}
+
+body.dark-mode .tour-btn.tour-btn-back:hover:not(:disabled) {
+  background: #363636;
+  border-color: #666666;
+}
+
+body.dark-mode .tour-skip-btn {
+  color: #999999;
+}
+
+body.dark-mode .tour-skip-btn:hover {
+  color: #f48fae;
+}
+
+body.dark-mode .tour-keyboard-hint {
+  border-top-color: #3d3d3d;
+  color: #888888;
+}
+
+body.dark-mode .tour-keyboard-hint kbd {
+  background: #303030;
+  border-color: #4a4a4a;
+  color: #d0d0d0;
+}
+
+/* =======================================================
+   CONTEXTUAL TIP BARS
+   Lightweight, clean, accessible helper banners
+   ======================================================= */
+
+.contextual-tip-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #fff8f3;
+  border: 1px solid #f3d7c7;
+  border-left: 4px solid var(--tour-rose);
+  border-radius: 12px;
+  padding: 10px 16px;
+  margin: 14px 0 20px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #4e4039;
+  box-shadow: 0 4px 14px rgba(184, 79, 115, 0.05);
+  animation: tipFadeIn 0.3s ease;
+}
+
+@keyframes tipFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.contextual-tip-banner p {
+  margin: 0;
+  flex: 1;
+}
+
+.contextual-tip-close {
+  background: none;
+  border: none;
+  color: #8c7f77;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 6px;
+}
+
+.contextual-tip-close:hover {
+  color: var(--tour-rose);
+}
+
+body.dark-mode .contextual-tip-banner {
+  background: #252022;
+  border-color: #47323b;
+  border-left-color: var(--tour-rose);
+  color: #ded1cb;
+}
+
+body.dark-mode .contextual-tip-close {
+  color: #999999;
+}
+
+body.dark-mode .contextual-tip-close:hover {
+  color: #ffffff;
+}
+
+/* =======================================================
+   RESPONSIVE LAYOUT
+   Tested for 1920, 1366, 1024, 768, 480, 390
+   ======================================================= */
+
+@media (max-width: 640px) {
+  .tour-popup {
+    width: calc(100vw - 24px) !important;
+    left: 12px !important;
+    right: 12px !important;
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .tour-title {
+    font-size: 17px;
+  }
+
+  .tour-description {
+    font-size: 13.5px;
+  }
+
+  .tour-keyboard-hint {
+    display: none;
+  }
+
+  .tour-btn {
+    padding: 8px 12px;
+    font-size: 12.5px;
+  }
+
+  .tour-skip-btn {
+    font-size: 12px;
+  }
+}

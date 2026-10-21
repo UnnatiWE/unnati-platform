@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
+import { localized } from "./i18n";
 import "./FirebaseResources.css";
 
 export default function FirebaseSHG({ lang = "en", t }) {
   const [shgs, setShgs] = useState([]);
-  const [search, setSearch] = useState("");
   const [district, setDistrict] = useState("All");
+  const [taluka, setTaluka] = useState("All");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -41,30 +42,37 @@ export default function FirebaseSHG({ lang = "en", t }) {
 
   /*
    * ==========================================
+   * CONSISTENT CANONICAL FIELD HELPER
+   * ==========================================
+   * Extracts underlying consistent value for reliable filtering
+   */
+  const getConsistentValue = (item, field) => {
+    if (!item) return "";
+    if (item[`${field}_en`] && typeof item[`${field}_en`] === "string") {
+      return item[`${field}_en`].trim();
+    }
+    const val = item[field];
+    if (typeof val === "string") {
+      return val.trim();
+    }
+    if (val && typeof val === "object" && !Array.isArray(val)) {
+      return String(val.en || val.hi || val.mr || Object.values(val)[0] || "").trim();
+    }
+    if (val !== undefined && val !== null) {
+      return String(val).trim();
+    }
+    return "";
+  };
+
+  /*
+   * ==========================================
    * MULTILINGUAL FIELD FUNCTION
    * ==========================================
-   *
-   * Supports:
-   *
-   * field_en
-   * field_hi
-   * field_mr
-   *
-   * Also supports:
-   *
-   * field_hindi
-   * field_marathi
-   *
-   * And nested format:
-   *
-   * field: {
-   *   en: "...",
-   *   hi: "...",
-   *   mr: "..."
-   * }
+   * Supports nested multilingual objects, _en/_hi/_mr,
+   * _hindi/_marathi, shared localized() helper, and base field
    */
-
   const getLocalized = (item, field) => {
+    if (!item) return "";
     const language = lang || "en";
 
     // 1. Nested multilingual object
@@ -118,7 +126,13 @@ export default function FirebaseSHG({ lang = "en", t }) {
       }
     }
 
-    // 4. Base field fallback
+    // 4. Shared localized helper fallback
+    const shared = localized(item, field, language);
+    if (shared && typeof shared === "string" && shared.trim() !== "") {
+      return shared;
+    }
+
+    // 5. Base field fallback
     if (
       item[field] !== undefined &&
       item[field] !== null &&
@@ -127,7 +141,7 @@ export default function FirebaseSHG({ lang = "en", t }) {
       return item[field];
     }
 
-    // 5. English fallback
+    // 6. English fallback
     if (
       item[`${field}_en`] !== undefined &&
       item[`${field}_en`] !== null
@@ -140,54 +154,88 @@ export default function FirebaseSHG({ lang = "en", t }) {
 
   /*
    * ==========================================
-   * DISTRICTS
+   * DISTRICTS (Unique from existing SHG records)
    * ==========================================
    */
+  const districtOptions = useMemo(() => {
+    const map = new Map();
+    shgs.forEach((s) => {
+      const raw = getConsistentValue(s, "district");
+      if (!raw) return;
+      if (!map.has(raw)) {
+        const display = getLocalized(s, "district") || raw;
+        map.set(raw, display);
+      }
+    });
 
-  const districts = useMemo(() => {
-    const list = shgs
-      .map((s) => getLocalized(s, "district"))
-      .filter(Boolean);
-
-    return ["All", ...Array.from(new Set(list)).sort()];
+    return Array.from(map.entries())
+      .map(([value, label]) => ({ value, label }))
+      .sort((a, b) => a.label.localeCompare(b.label, lang || "en"));
   }, [shgs, lang]);
 
   /*
    * ==========================================
-   * SEARCH + FILTER
+   * DEPENDENT TALUKAS (Belonging to selected district)
    * ==========================================
    */
+  const talukaOptions = useMemo(() => {
+    if (!district || district === "All") return [];
 
-  const filtered = useMemo(() => {
-    const q = search.toLowerCase().trim();
-
-    return shgs.filter((s) => {
-      const values = [
-        s.id,
-        getLocalized(s, "taluka"),
-        getLocalized(s, "district"),
-        getLocalized(s, "division"),
-        getLocalized(s, "institutional_hub"),
-        getLocalized(s, "institution_type"),
-        getLocalized(s, "address"),
-        getLocalized(s, "key_services"),
-        getLocalized(s, "products_produced"),
-        getLocalized(s, "contact_person"),
-      ];
-
-      const searchableText = values
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-
-      const currentDistrict = getLocalized(s, "district");
-
-      return (
-        (!q || searchableText.includes(q)) &&
-        (district === "All" || currentDistrict === district)
-      );
+    const map = new Map();
+    shgs.forEach((s) => {
+      const rawDist = getConsistentValue(s, "district");
+      const locDist = getLocalized(s, "district");
+      if (rawDist === district || locDist === district) {
+        const rawTaluka = getConsistentValue(s, "taluka");
+        if (!rawTaluka || rawTaluka === "—") return;
+        if (!map.has(rawTaluka)) {
+          const display = getLocalized(s, "taluka") || rawTaluka;
+          map.set(rawTaluka, display);
+        }
+      }
     });
-  }, [shgs, search, district, lang]);
+
+    return Array.from(map.entries())
+      .map(([value, label]) => ({ value, label }))
+      .sort((a, b) => a.label.localeCompare(b.label, lang || "en"));
+  }, [shgs, district, lang]);
+
+  /*
+   * ==========================================
+   * FILTER LOGIC (District + Dependent Taluka)
+   * ==========================================
+   */
+  const filtered = useMemo(() => {
+    return shgs.filter((s) => {
+      const rawDist = getConsistentValue(s, "district");
+      const locDist = getLocalized(s, "district");
+      const districtMatch =
+        !district ||
+        district === "All" ||
+        rawDist === district ||
+        locDist === district;
+
+      if (!districtMatch) return false;
+
+      if (!taluka || taluka === "All") {
+        return true;
+      }
+
+      const rawTaluka = getConsistentValue(s, "taluka");
+      const locTaluka = getLocalized(s, "taluka");
+      return rawTaluka === taluka || locTaluka === taluka;
+    });
+  }, [shgs, district, taluka, lang]);
+
+  const handleDistrictChange = (e) => {
+    setDistrict(e.target.value);
+    setTaluka("All");
+  };
+
+  const handleClear = () => {
+    setDistrict("All");
+    setTaluka("All");
+  };
 
   /*
    * ==========================================
@@ -209,35 +257,68 @@ export default function FirebaseSHG({ lang = "en", t }) {
         <p>{t.shgHero}</p>
       </div>
 
+      {/* CONTEXTUAL TIP */}
+      <div className="contextual-tip-banner" role="status">
+        <p>{t.tipSHG}</p>
+      </div>
+
       {/* FILTERS */}
       <div className="firebase-filters">
-
-        <input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder={t.searchShg}
-        />
-
+        <label htmlFor="shg-district-select" className="visually-hidden">
+          {t.selectDistrict || "Select District"}
+        </label>
         <select
+          id="shg-district-select"
+          aria-label={t.selectDistrict || "Select District"}
+          title={t.selectDistrict || "Select District"}
           value={district}
-          onChange={(e) => setDistrict(e.target.value)}
+          onChange={handleDistrictChange}
         >
-          {districts.map((d) => (
-            <option key={d} value={d}>
-              {d}
+          <option value="All">
+            {t.allDistricts || "All Districts"}
+          </option>
+          {districtOptions.map((d) => (
+            <option key={d.value} value={d.value}>
+              {d.label}
             </option>
           ))}
         </select>
 
-        <button
-          onClick={() => {
-            setSearch("");
-            setDistrict("All");
-          }}
+        <label htmlFor="shg-taluka-select" className="visually-hidden">
+          {t.selectTaluka || "Select Taluka"}
+        </label>
+        <select
+          id="shg-taluka-select"
+          aria-label={t.selectTaluka || "Select Taluka"}
+          title={t.selectTaluka || "Select Taluka"}
+          value={taluka}
+          disabled={!district || district === "All"}
+          onChange={(e) => setTaluka(e.target.value)}
         >
-          {t.clear}
-        </button>
+          {!district || district === "All" ? (
+            <option value="All">
+              {t.selectDistrictFirst || "Select District First"}
+            </option>
+          ) : (
+            <>
+              <option value="All">
+                {t.allTalukas || "All Talukas"}
+              </option>
+              {talukaOptions.map((tk) => (
+                <option key={tk.value} value={tk.value}>
+                  {tk.label}
+                </option>
+              ))}
+            </>
+          )}
+        </select>
 
+        <button
+          type="button"
+          onClick={handleClear}
+        >
+          {t.clear || "Clear"}
+        </button>
       </div>
 
       {/* COUNT */}

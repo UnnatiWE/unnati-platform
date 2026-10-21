@@ -187,6 +187,11 @@ export default function GovernmentSchemes({
 
       <section className="filter-section">
 
+        {/* CONTEXTUAL TIP */}
+        <div className="contextual-tip-banner" role="status">
+          <p>{t.tipSchemes}</p>
+        </div>
+
         <div className="search-box">
 
           <span className="search-icon">
