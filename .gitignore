@@ -15,3 +15,13 @@ dist/
 # OS files
 .DS_Store
 Thumbs.db
+# Private authentication credentials
+server/.env
+server/serviceAccountKey.json
+serviceAccountKey*.json
+service-account*.json
+
+# Frontend environment files
+.env
+.env.local
+.env.*.local

@@ -4,13 +4,13 @@
    ========================================================= */
 
 body.dark-mode {
-  --unnati-bg: #171717;
-  --unnati-surface: #242424;
-  --unnati-surface-2: #2b2b2b;
-  --unnati-text: #f5f5f5;
+  --unnati-bg: #211A20;
+  --unnati-surface: #2F2630;
+  --unnati-surface-2: #382D36;
+  --unnati-text: #FBF7F2;
   --unnati-muted: #c2c2c2;
   --unnati-border: #3d3d3d;
-  --unnati-input: #202020;
+  --unnati-input: #282027;
   background: var(--unnati-bg) !important;
   color: var(--unnati-text) !important;
 }
@@ -33,13 +33,13 @@ body.dark-mode .journey {
 }
 
 body.dark-mode header {
-  background: #202020 !important;
+  background: #282027 !important;
   color: var(--unnati-text) !important;
   border-bottom: 1px solid var(--unnati-border);
 }
 
 body.dark-mode footer {
-  background: #111111 !important;
+  background: #171218 !important;
   color: var(--unnati-text) !important;
   border-top: 1px solid var(--unnati-border);
 }
@@ -52,14 +52,15 @@ body.dark-mode .text-btn {
 }
 
 body.dark-mode .main-nav button.active {
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
-/* Theme toggle */
-.theme-toggle {
-  border: 1px solid #ddd;
-  background: #ffffff;
-  color: #3b3b3b;
+/* Theme toggle & Guide button */
+.theme-toggle,
+.guide-toggle-btn {
+  border: 1px solid #E7D9DF;
+  background: #FFFFFF;
+  color: #383438;
   padding: 9px 14px;
   border-radius: 22px;
   cursor: pointer;
@@ -69,13 +70,15 @@ body.dark-mode .main-nav button.active {
   transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
 }
 
-.theme-toggle:hover {
+.theme-toggle:hover,
+.guide-toggle-btn:hover {
   transform: translateY(-1px);
 }
 
-body.dark-mode .theme-toggle {
-  background: #2b2b2b;
-  color: #ffffff;
+body.dark-mode .theme-toggle,
+body.dark-mode .guide-toggle-btn {
+  background: #382D36;
+  color: #FFFFFF;
   border-color: #555555;
 }
 
@@ -86,7 +89,7 @@ body.dark-mode h3,
 body.dark-mode h4,
 body.dark-mode h5,
 body.dark-mode h6 {
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 body.dark-mode p,
@@ -123,51 +126,51 @@ body.dark-mode textarea,
 body.dark-mode .language-selector,
 body.dark-mode .district-selector {
   background: var(--unnati-input) !important;
-  color: #ffffff !important;
-  border-color: #4a4a4a !important;
+  color: #FFFFFF !important;
+  border-color: #5A4653 !important;
 }
 
 body.dark-mode input::placeholder,
 body.dark-mode textarea::placeholder {
-  color: #929292;
+  color: #AFA2AA;
 }
 
 body.dark-mode select option {
-  background: #202020;
-  color: #ffffff;
+  background: #282027;
+  color: #FFFFFF;
 }
 
 /* Buttons */
 body.dark-mode .btn.ghost {
-  background: #2b2b2b;
-  color: #ffffff;
+  background: #382D36;
+  color: #FFFFFF;
   border-color: #555555;
 }
 
 body.dark-mode .btn.secondary {
   background: transparent;
-  color: #ffffff;
+  color: #FFFFFF;
   border-color: #777777;
 }
 
 body.dark-mode .text-btn:hover {
-  color: #f3a084;
+  color: #F0B08F;
 }
 
 /* Home hero */
 body.dark-mode .hero {
-  background: linear-gradient(135deg, #242424 0%, #202020 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, #2F2630 0%, #282027 100%);
+  color: #FFFFFF;
 }
 
 body.dark-mode .hero p,
 body.dark-mode .hero h2 {
-  color: #dddddd;
+  color: #E7D9DFddd;
 }
 
 body.dark-mode .map-placeholder {
   background: #2a2a2a;
-  color: #ffffff;
+  color: #FFFFFF;
   border-color: #444444;
 }
 
@@ -175,33 +178,33 @@ body.dark-mode .map-placeholder {
    GOVERNMENT SCHEMES
    ========================================================= */
 body.dark-mode .schemes-page {
-  background: #171717 !important;
-  color: #f5f5f5 !important;
+  background: #211A20 !important;
+  color: #FBF7F2 !important;
 }
 
 body.dark-mode .filter-section,
 body.dark-mode .scheme-card,
 body.dark-mode .no-results,
 body.dark-mode .error-message {
-  background: #242424 !important;
-  color: #f5f5f5 !important;
+  background: #2F2630 !important;
+  color: #FBF7F2 !important;
   border-color: #3d3d3d !important;
   box-shadow: 0 8px 25px rgba(0,0,0,.28);
 }
 
 body.dark-mode .search-box,
 body.dark-mode .filter-row select {
-  background: #202020 !important;
-  color: #ffffff !important;
-  border-color: #4a4a4a !important;
+  background: #282027 !important;
+  color: #FFFFFF !important;
+  border-color: #5A4653 !important;
 }
 
 body.dark-mode .search-box input {
-  color: #ffffff !important;
+  color: #FFFFFF !important;
 }
 
 body.dark-mode .scheme-card h2 {
-  color: #ffffff !important;
+  color: #FFFFFF !important;
 }
 
 body.dark-mode .purpose,
@@ -215,21 +218,46 @@ body.dark-mode .expanded-content {
   border-top-color: #3d3d3d;
 }
 
+body.dark-mode .details-btn {
+  background: var(--rose, #7B4568);
+  border-color: var(--rose, #7B4568);
+  color: #FFFFFF;
+}
+
+body.dark-mode .details-btn:hover {
+  background: #653650;
+  border-color: #653650;
+  color: #FFFFFF;
+}
+
+body.dark-mode .official-btn,
+body.dark-mode a.official-btn {
+  border-color: var(--rose, #7B4568);
+  color: #FBF7F2;
+}
+
+body.dark-mode .official-btn:hover,
+body.dark-mode a.official-btn:hover {
+  background: #382D36;
+  border-color: var(--rose, #7B4568);
+  color: #FFFFFF;
+}
+
 /* =========================================================
    SKILLS / SHGs / HELPLINES
    ========================================================= */
 body.dark-mode .firebase-page {
-  background: #171717 !important;
-  color: #f5f5f5 !important;
+  background: #211A20 !important;
+  color: #FBF7F2 !important;
 }
 
 body.dark-mode .firebase-hero {
-  background: linear-gradient(135deg, #242424, #202020) !important;
-  color: #ffffff !important;
+  background: linear-gradient(135deg, #2F2630, #282027) !important;
+  color: #FFFFFF !important;
 }
 
 body.dark-mode .firebase-hero h1 {
-  color: #ffffff !important;
+  color: #FFFFFF !important;
 }
 
 body.dark-mode .firebase-hero p,
@@ -240,28 +268,40 @@ body.dark-mode .firebase-card p {
 
 body.dark-mode .firebase-filters input,
 body.dark-mode .firebase-filters select {
-  background: #202020 !important;
-  color: #ffffff !important;
-  border-color: #4a4a4a !important;
+  background: #282027 !important;
+  color: #FFFFFF !important;
+  border-color: #5A4653 !important;
 }
 
 body.dark-mode .firebase-card,
 body.dark-mode .firebase-state,
 body.dark-mode .firebase-error {
-  background: #242424 !important;
-  color: #f5f5f5 !important;
+  background: #2F2630 !important;
+  color: #FBF7F2 !important;
   border-color: #3d3d3d !important;
   box-shadow: 0 8px 24px rgba(0,0,0,.25);
 }
 
 body.dark-mode .firebase-card h2 {
-  color: #ffffff !important;
+  color: #FFFFFF !important;
 }
 
 body.dark-mode .firebase-note,
 body.dark-mode .firebase-disclaimer {
-  background: #2b2b2b !important;
+  background: #382D36 !important;
   color: #c2c2c2 !important;
+}
+
+body.dark-mode .firebase-btn,
+body.dark-mode a.firebase-btn {
+  background: var(--rose, #7B4568);
+  color: #FFFFFF;
+}
+
+body.dark-mode .firebase-btn:hover,
+body.dark-mode a.firebase-btn:hover {
+  background: #653650;
+  color: #FFFFFF;
 }
 
 /* =========================================================
@@ -272,14 +312,14 @@ body.dark-mode .modal-backdrop {
 }
 
 body.dark-mode .auth-card {
-  background: #242424 !important;
-  color: #ffffff !important;
+  background: #2F2630 !important;
+  color: #FFFFFF !important;
   border: 1px solid #3d3d3d;
   box-shadow: 0 20px 60px rgba(0,0,0,.45);
 }
 
 body.dark-mode .auth-card h2 {
-  color: #ffffff !important;
+  color: #FFFFFF !important;
 }
 
 body.dark-mode .auth-card p {
@@ -288,32 +328,32 @@ body.dark-mode .auth-card p {
 
 body.dark-mode .auth-card input,
 body.dark-mode .auth-card select {
-  background: #1d1d1d !important;
-  color: #ffffff !important;
-  border-color: #4a4a4a !important;
+  background: #241C23 !important;
+  color: #FFFFFF !important;
+  border-color: #5A4653 !important;
 }
 
 body.dark-mode .auth-card input::placeholder {
-  color: #929292;
+  color: #AFA2AA;
 }
 
 body.dark-mode .auth-card input:disabled {
-  background: #292929 !important;
-  color: #aaaaaa !important;
+  background: #332831 !important;
+  color: #B9ADB5 !important;
 }
 
 body.dark-mode .auth-card .error {
-  color: #ff9b9b !important;
+  color: #FFB3B3 !important;
 }
 
 /* Dashboard */
 body.dark-mode .dashboard-grid {
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 /* Links */
 body.dark-mode a {
-  color: #f0a184;
+  color: #F0B08F;
 }
 
 /* Smooth theme transition without changing the existing layout */
@@ -333,7 +373,8 @@ body.dark-mode .auth-card {
 
 /* Mobile header: keep the toggle usable */
 @media (max-width: 900px) {
-  .theme-toggle {
+  .theme-toggle,
+  .guide-toggle-btn {
     padding: 8px 11px;
     font-size: 13px;
   }
