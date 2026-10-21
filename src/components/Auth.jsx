@@ -1,350 +1,349 @@
 import { useState } from "react";
+import { signInWithCustomToken } from "firebase/auth";
+import { auth } from "../firebase";
 
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
-} from "firebase/auth";
+const API_BASE =
+  import.meta.env.VITE_AUTH_API_URL || "http://localhost:5000";
 
-import {
-  doc,
-  setDoc,
-  serverTimestamp
-} from "firebase/firestore";
+const MAHARASHTRA_DISTRICTS = [
+  "Ahilyanagar",
+  "Akola",
+  "Amravati",
+  "Beed",
+  "Bhandara",
+  "Buldhana",
+  "Chandrapur",
+  "Chhatrapati Sambhajinagar",
+  "Dharashiv",
+  "Dhule",
+  "Gadchiroli",
+  "Gondia",
+  "Hingoli",
+  "Jalgaon",
+  "Jalna",
+  "Kolhapur",
+  "Latur",
+  "Mumbai City",
+  "Mumbai Suburban",
+  "Nagpur",
+  "Nanded",
+  "Nandurbar",
+  "Nashik",
+  "Palghar",
+  "Parbhani",
+  "Pune",
+  "Raigad",
+  "Ratnagiri",
+  "Sangli",
+  "Satara",
+  "Sindhudurg",
+  "Solapur",
+  "Thane",
+  "Wardha",
+  "Washim",
+  "Yavatmal",
+];
 
-import { auth, db } from "../firebase";
-import { districts } from "../data/districts";
+const AGE_GROUPS = [
+  { value: "18-25", label: "18–25 years" },
+  { value: "26-35", label: "26–35 years" },
+  { value: "36-45", label: "36–45 years" },
+  { value: "46-60", label: "46–60 years" },
+  { value: "60+", label: "Above 60 years" },
+];
 
-export default function Auth({
-  mode,
-  setMode,
-  onClose,
-  required = false
-}) {
-  const signup = mode === "signup";
-
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    district: "",
-    ageGroup: "",
-    occupation: ""
+async function apiPost(path, body) {
+  const response = await fetch(`${API_BASE}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
   });
 
-  const [msg, setMsg] = useState("");
+  const data = await response.json().catch(() => ({}));
 
-  function update(e) {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
+  if (!response.ok) {
+    throw new Error(data.error || "Something went wrong. Please try again.");
   }
 
-  async function submit(e) {
-    e.preventDefault();
-    setMsg("");
+  return data;
+}
+
+function normalizePhoneInput(value) {
+  return value.trim().replace(/[\s()-]/g, "");
+}
+
+export default function Auth({ onLogin, required = true }) {
+  const [mode, setMode] = useState("login");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [district, setDistrict] = useState("");
+  const [ageGroup, setAgeGroup] = useState("");
+  const [occupation, setOccupation] = useState("");
+  const [code, setCode] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+
+  const cleanPhone = normalizePhoneInput(phone);
+
+  function resetForm(nextMode) {
+    setMode(nextMode);
+    setName("");
+    setPhone("");
+    setDistrict("");
+    setAgeGroup("");
+    setOccupation("");
+    setCode("");
+    setOtpSent(false);
+    setError("");
+    setMessage("");
+  }
+
+  async function sendOtp(event) {
+    event.preventDefault();
+    setError("");
+    setMessage("");
+
+    if (!cleanPhone) {
+      setError("Please enter your mobile number.");
+      return;
+    }
+
+    if (mode === "signup") {
+      if (!name.trim()) {
+        setError("Please enter your full name.");
+        return;
+      }
+      if (!district) {
+        setError("Please select your district.");
+        return;
+      }
+      if (!ageGroup) {
+        setError("Please select your age group.");
+        return;
+      }
+    }
+
+    setLoading(true);
 
     try {
-      // ==============================
-      // CREATE ACCOUNT
-      // ==============================
-      if (signup) {
-        const result = await createUserWithEmailAndPassword(
-          auth,
-          form.email,
-          form.password
-        );
+      await apiPost("/api/otp/send", {
+        phone: cleanPhone,
+        purpose: mode,
+      });
 
-        await setDoc(
-          doc(db, "users", result.user.uid),
-          {
-            name: form.name,
-            email: form.email,
-            state: "Maharashtra",
-            district: form.district,
-            ageGroup: form.ageGroup,
-            occupation: form.occupation,
-            preferredLanguage:
-              localStorage.getItem("unnatiLanguage") || "en",
-            createdAt: serverTimestamp()
-          }
-        );
-      }
-
-      // ==============================
-      // LOGIN
-      // ==============================
-      else {
-        await signInWithEmailAndPassword(
-          auth,
-          form.email,
-          form.password
-        );
-      }
-
-      // App.jsx will detect Firebase login
-      onClose();
-
+      setOtpSent(true);
+      setMessage("OTP sent. Please check your phone.");
     } catch (err) {
-      let errorMessage =
-        err.message || "Authentication failed.";
+      setError(err.message || "Unable to send OTP. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
-      errorMessage = errorMessage.replace(
-        "Firebase: ",
-        ""
-      );
+  async function verifyOtp(event) {
+    event.preventDefault();
+    setError("");
+    setMessage("");
 
-      if (
-        errorMessage.includes(
-          "auth/invalid-credential"
-        )
-      ) {
-        errorMessage =
-          "Incorrect email or password.";
+    if (!/^\d{4,10}$/.test(code.trim())) {
+      setError("Please enter the OTP received on your phone.");
+      return;
+    }
+
+    if (mode === "signup" && (!district || !ageGroup || !name.trim())) {
+      setError("Please complete your name, district, and age group.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const result =
+        mode === "signup"
+          ? await apiPost("/api/auth/signup", {
+              phone: cleanPhone,
+              code: code.trim(),
+              name: name.trim(),
+              district,
+              ageGroup,
+              occupation: occupation.trim(),
+            })
+          : await apiPost("/api/auth/login", {
+              phone: cleanPhone,
+              code: code.trim(),
+            });
+
+      await signInWithCustomToken(auth, result.token);
+
+      if (onLogin) {
+        onLogin(result.user || null);
       }
-
-      else if (
-        errorMessage.includes(
-          "auth/user-not-found"
-        )
-      ) {
-        errorMessage =
-          "No account exists with this email.";
-      }
-
-      else if (
-        errorMessage.includes(
-          "auth/wrong-password"
-        )
-      ) {
-        errorMessage =
-          "Incorrect password.";
-      }
-
-      else if (
-        errorMessage.includes(
-          "auth/email-already-in-use"
-        )
-      ) {
-        errorMessage =
-          "An account already exists with this email.";
-      }
-
-      else if (
-        errorMessage.includes(
-          "auth/weak-password"
-        )
-      ) {
-        errorMessage =
-          "Password must be at least 6 characters.";
-      }
-
-      else if (
-        errorMessage.includes(
-          "auth/invalid-email"
-        )
-      ) {
-        errorMessage =
-          "Please enter a valid email address.";
-      }
-
-      setMsg(errorMessage);
+    } catch (err) {
+      setError(err.message || "Verification failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <div className="modal-backdrop">
-
-      <div className="auth-card">
-
-        {!required && (
-          <button
-            className="close"
-            onClick={onClose}
-            type="button"
-          >
-            ×
-          </button>
-        )}
-
+      <div
+        className="auth-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="unnati-auth-title"
+      >
         <img
-          src="/unnati-logo.png"
           className="auth-logo"
+          src="/unnati-logo.png"
           alt="UNNATI"
         />
 
-        <h2>
-          {signup
-            ? "Create your account"
-            : "Welcome to UNNATI"}
+        <h2 id="unnati-auth-title">
+          {mode === "signup" ? "Create your UNNATI account" : "Welcome to UNNATI"}
         </h2>
 
-        {!signup && (
-          <p>
-            Please login to access the
-            UNNATI platform.
-          </p>
-        )}
+        <p>
+          {mode === "signup"
+            ? "Register using your mobile number."
+            : "Sign in securely using SMS OTP."}
+        </p>
 
-        <form onSubmit={submit}>
-
-          {/* NAME - SIGNUP ONLY */}
-          {signup && (
-            <input
-              name="name"
-              placeholder="Full Name"
-              value={form.name}
-              onChange={update}
-              required
-            />
-          )}
-
-          {/* EMAIL */}
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={update}
-            required
-            autoComplete="email"
-          />
-
-          {/* PASSWORD */}
-          <input
-            name="password"
-            type="password"
-            minLength="6"
-            placeholder="Password"
-            value={form.password}
-            onChange={update}
-            required
-            autoComplete={
-              signup
-                ? "new-password"
-                : "current-password"
-            }
-          />
-
-          {/* SIGNUP INFORMATION */}
-          {signup && (
+        <form onSubmit={otpSent ? verifyOtp : sendOtp}>
+          {mode === "signup" && (
             <>
+              <label htmlFor="auth-name">Full name *</label>
               <input
-                value="Maharashtra"
-                disabled
+                id="auth-name"
+                type="text"
+                autoComplete="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your full name"
+                required
+                disabled={loading || otpSent}
               />
 
+              <label htmlFor="auth-district">District *</label>
               <select
-                name="district"
-                value={form.district}
-                onChange={update}
+                id="auth-district"
+                value={district}
+                onChange={(e) => setDistrict(e.target.value)}
                 required
+                disabled={loading || otpSent}
               >
-                <option value="">
-                  Select District
-                </option>
-
-                {districts.map((district) => (
-                  <option
-                    key={district}
-                    value={district}
-                  >
-                    {district}
+                <option value="">Select your district</option>
+                {MAHARASHTRA_DISTRICTS.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
                   </option>
                 ))}
               </select>
 
+              <label htmlFor="auth-age">Age group *</label>
               <select
-                name="ageGroup"
-                value={form.ageGroup}
-                onChange={update}
+                id="auth-age"
+                value={ageGroup}
+                onChange={(e) => setAgeGroup(e.target.value)}
+                required
+                disabled={loading || otpSent}
               >
-                {[
-                  "Under 18",
-                  "18–25",
-                  "26–40",
-                  "41–60",
-                  "60+"
-                ].map((age) => (
-                  <option
-                    key={age}
-                    value={age}
-                  >
-                    {age}
+                <option value="">Select your age group</option>
+                {AGE_GROUPS.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
                   </option>
                 ))}
               </select>
 
-              <select
-                name="occupation"
-                value={form.occupation}
-                onChange={update}
-              >
-                {[
-                  "Homemaker",
-                  "Farmer",
-                  "Entrepreneur",
-                  "Student",
-                  "Artisan",
-                  "Worker",
-                  "Other"
-                ].map((occupation) => (
-                  <option
-                    key={occupation}
-                    value={occupation}
-                  >
-                    {occupation}
-                  </option>
-                ))}
-              </select>
+              <label htmlFor="auth-occupation">Occupation (optional)</label>
+              <input
+                id="auth-occupation"
+                type="text"
+                value={occupation}
+                onChange={(e) => setOccupation(e.target.value)}
+                placeholder="Enter your occupation"
+                disabled={loading || otpSent}
+              />
             </>
           )}
 
-          <button
-            className="btn primary"
-            type="submit"
-          >
-            {signup
-              ? "Create Account"
-              : "Login"}
+          <label htmlFor="auth-phone">Mobile number *</label>
+          <input
+            id="auth-phone"
+            type="tel"
+            autoComplete="tel"
+            inputMode="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="+91 9876543210"
+            required
+            disabled={loading || otpSent}
+          />
+
+          {otpSent && (
+            <>
+              <label htmlFor="auth-otp">SMS verification code *</label>
+              <input
+                id="auth-otp"
+                type="text"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                value={code}
+                onChange={(e) =>
+                  setCode(e.target.value.replace(/\D/g, "").slice(0, 10))
+                }
+                placeholder="Enter OTP"
+                required
+                disabled={loading}
+              />
+            </>
+          )}
+
+          {error && (
+            <p className="error" role="alert">
+              {error}
+            </p>
+          )}
+
+          {message && <p role="status">{message}</p>}
+
+          <button className="btn primary" type="submit" disabled={loading}>
+            {loading
+              ? "Please wait..."
+              : otpSent
+                ? mode === "signup"
+                  ? "Verify OTP & Register"
+                  : "Verify OTP & Login"
+                : "Send OTP"}
           </button>
 
+          {otpSent && (
+            <button
+              className="text-btn"
+              type="button"
+              disabled={loading}
+              onClick={sendOtp}
+            >
+              Resend OTP
+            </button>
+          )}
         </form>
 
-        {/* ERROR */}
-        {msg && (
-          <p className="error">
-            {msg}
-          </p>
-        )}
-
-        {/* SWITCH LOGIN / SIGNUP */}
         <p>
-          {signup
-            ? "Already have an account?"
-            : "New to Unnati?"}
-
-          {" "}
-
+          {mode === "login" ? "New to UNNATI? " : "Already registered? "}
           <button
-            type="button"
             className="text-btn"
-            onClick={() =>
-              setMode(
-                signup
-                  ? "login"
-                  : "signup"
-              )
-            }
+            type="button"
+            disabled={loading}
+            onClick={() => resetForm(mode === "login" ? "signup" : "login")}
           >
-            {signup
-              ? "Login"
-              : "Create Account"}
+            {mode === "login" ? "Create account" : "Login"}
           </button>
         </p>
-
       </div>
-
     </div>
   );
 }

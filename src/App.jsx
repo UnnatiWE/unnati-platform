@@ -187,6 +187,9 @@ export default function App() {
             // Start tour only for first visit
             if (
               !localStorage.getItem(
+                "unnatiTourCompleted"
+              ) &&
+              !localStorage.getItem(
                 "unnatiTourDone"
               )
             ) {
@@ -371,6 +374,10 @@ export default function App() {
       <Tour
         run={tour}
         setRun={setTour}
+        lang={lang}
+        t={t}
+        currentPage={page}
+        onNavigate={go}
       />
 
 
@@ -403,6 +410,7 @@ export default function App() {
 
             <button
               key={item}
+              data-tour={`nav-${item}`}
               onClick={() =>
                 go(item)
               }
@@ -428,6 +436,7 @@ export default function App() {
 
           <select
             className="language-selector"
+            data-tour="language-selector"
             value={lang}
             onChange={(e) =>
               setLang(e.target.value)
@@ -455,6 +464,7 @@ export default function App() {
           <button
             type="button"
             className="theme-toggle"
+            data-tour="theme-toggle"
             onClick={() => setDarkMode((current) => !current)}
             aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
             title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
@@ -463,10 +473,27 @@ export default function App() {
           </button>
 
 
+          {/* PERMANENT GUIDE BUTTON */}
+
+          <button
+            type="button"
+            className="guide-toggle-btn"
+            data-tour="guide-btn"
+            onClick={() => {
+              setTour(true);
+            }}
+            aria-label={t.tourGuideBtn || "Guide"}
+            title={t.tourGuideBtn || "Guide"}
+          >
+            ❓ {t.tourGuideBtn || "Guide"}
+          </button>
+
+
           {/* DASHBOARD */}
 
           <button
             className="btn ghost"
+            data-tour="header-dashboard"
             onClick={() =>
               go("dashboard")
             }
@@ -661,21 +688,6 @@ export default function App() {
           {t.footerText}
         </p>
 
-        <button
-          className="text-btn"
-          onClick={() => {
-
-            setTour(true);
-
-            localStorage.removeItem(
-              "unnatiTourDone"
-            );
-
-          }}
-        >
-          {t.tour}
-        </button>
-
       </footer>
 
     </div>
@@ -735,7 +747,7 @@ function Home({
 
       {/* HERO */}
 
-      <section className="hero">
+      <section className="hero" data-tour="hero-welcome">
 
         <div>
 
@@ -757,26 +769,17 @@ function Home({
 
 
           <div className="actions">
-
             <button
-              className="btn primary primary-cta"
-              onClick={() =>
-                go("schemes")
-              }
-            >
-              {t.explore}
+               className="btn primary primary-cta"
+               onClick={() => {
+                  document.getElementById("home-features")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                   });
+               }}
+             >
+              Explore UNNATI
             </button>
-
-
-            <button
-              className="btn secondary"
-              onClick={() =>
-                go("help")
-              }
-            >
-              {t.support}
-            </button>
-
           </div>
 
         </div>
@@ -784,23 +787,13 @@ function Home({
 
         <div className="hero-art">
 
-          <div className="map-placeholder">
-
-            {langText(
-              t,
-              "Maharashtra",
-              "महाराष्ट्र",
-              "महाराष्ट्र"
-            )}
-
-            <br />
-
-            <span>
-              36 Districts
-            </span>
-
+          
+          <div className="map-placeholder unnati-home-logo">
+            <img
+              src="/unnati-home-logo.png"
+              alt="UNNATI - Women Empowerment"
+            />
           </div>
-
         </div>
 
       </section>
@@ -865,7 +858,7 @@ function Home({
 
       {/* FEATURES */}
 
-      <section className="features">
+      <section id="home-features" className="features">
 
         {features.map(
           ([
@@ -1045,7 +1038,7 @@ function Dashboard({
 
         {/* SAVED */}
 
-        <article className="resource-card">
+        <article className="resource-card" data-tour="saved-card">
 
           <h2>
             {t.savedResources}
@@ -1071,6 +1064,11 @@ function Dashboard({
 
         </article>
 
+      </div>
+
+      {/* CONTEXTUAL TIP */}
+      <div className="contextual-tip-banner" role="status">
+        <p>{t.tipSaved}</p>
       </div>
 
 

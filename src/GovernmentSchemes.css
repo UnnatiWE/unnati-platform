@@ -1,517 +1,586 @@
-/* =====================================
-   UNNATI GOVERNMENT SCHEMES
-===================================== */
+
+/* =========================================
+   UNNATI — GOVERNMENT SCHEMES
+========================================= */
 
 .schemes-page {
+  width: 100%;
   min-height: 100vh;
-  background: #f7f3ec;
-  color: #3b3b3b;
-  padding-bottom: 60px;
+  box-sizing: border-box;
+  padding: 24px 0 60px;
+  background: #F7F3ED;
+  color: #383438;
+  font-family: 'DM Sans', sans-serif;
 }
 
+/* Shared content width */
+.schemes-header,
+.filter-section,
+.results-info,
+.schemes-container {
+  width: calc(100% - 80px);
+  max-width: 1356px;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-/* =====================================
-   HEADER
-===================================== */
-
+/* Header */
 .schemes-header {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(184, 79, 115, 0.95),
-      rgba(230, 138, 106, 0.92)
-    );
-
-  padding: 65px 20px;
-
-  text-align: center;
-
-  color: white;
+  margin-top: 0;
+  margin-bottom: 30px;
+  padding: 42px 44px;
+  border: 1px solid #F0E7E8;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #FBF7F2, #FFFDFC);
+  box-shadow: 0 12px 36px rgba(56, 52, 56, 0.06);
 }
 
 .header-content {
-  max-width: 900px;
-  margin: auto;
+  width: 100%;
 }
 
-.section-label {
+.schemes-header .section-label {
   display: inline-block;
-
-  padding: 7px 16px;
-
-  border: 1px solid rgba(255,255,255,0.5);
-
-  border-radius: 30px;
-
-  font-size: 13px;
-
-  letter-spacing: 2px;
-
-  margin-bottom: 15px;
+  margin-bottom: 18px;
+  color: #B94F76;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .schemes-header h1 {
-  margin: 0;
-
-  font-size: 42px;
-
+  margin: 0 0 18px;
+  color: #383438;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(36px, 3.5vw, 58px);
   font-weight: 700;
+  line-height: 1.15;
 }
 
 .schemes-header p {
-  margin-top: 14px;
-
-  font-size: 17px;
-
-  opacity: 0.95;
+  margin: 0;
+  color: #6B6468;
+  font-size: 19px;
+  line-height: 1.6;
 }
 
-
-/* =====================================
-   FILTER SECTION
-===================================== */
-
+/* Filter panel */
 .filter-section {
-  max-width: 1200px;
-
-  margin: -30px auto 0;
-
+  margin-top: 0;
+  margin-bottom: 0;
   padding: 25px;
-
-  background: #fffdfc;
-
-  border-radius: 18px;
-
-  box-shadow:
-    0 10px 30px rgba(59,59,59,0.10);
-
-  position: relative;
+  border: 1px solid rgba(231, 217, 223, 0.4);
+  border-radius: 22px;
+  background: #FFFDFC;
+  box-shadow: 0 10px 30px rgba(56, 52, 56, 0.06);
 }
 
-
+/* Search */
 .search-box {
   display: flex;
-
   align-items: center;
-
-  border: 1px solid #e2d9d3;
-
-  border-radius: 12px;
-
+  width: 100%;
+  box-sizing: border-box;
   padding: 0 16px;
-
-  background: white;
+  border: 1px solid #E7D9DF;
+  border-radius: 12px;
+  background: #FFFFFF;
 }
 
 .search-icon {
+  flex-shrink: 0;
   margin-right: 10px;
-
   font-size: 18px;
 }
 
 .search-box input {
+  flex: 1;
   width: 100%;
-
-  border: none;
-
-  outline: none;
-
+  min-width: 0;
+  box-sizing: border-box;
   padding: 15px 5px;
-
-  font-size: 15px;
-
+  border: none;
+  outline: none;
   background: transparent;
+  color: #383438;
+  font-family: inherit;
+  font-size: 16px;
 }
 
+.search-box input::placeholder {
+  color: #80777C;
+}
 
+.search-box:focus-within {
+  border-color: #B94F76;
+  box-shadow: 0 0 0 3px rgba(185, 79, 118, 0.08);
+}
+
+/* Dropdowns */
 .filter-row {
   display: flex;
-
+  align-items: stretch;
   gap: 12px;
-
+  width: 100%;
   margin-top: 15px;
-
-  flex-wrap: wrap;
 }
 
 .filter-row select {
-  flex: 1;
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  border: 1px solid #E7D9DF;
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: #383438;
+  font-family: inherit;
+  font-size: 15px;
+}
 
-  min-width: 220px;
-
-  padding: 13px;
-
-  border: 1px solid #e2d9d3;
-
-  border-radius: 10px;
-
-  background: white;
-
-  color: #3b3b3b;
-
-  font-size: 14px;
-
+.filter-row select:focus {
+  border-color: #B94F76;
   outline: none;
 }
 
 .clear-btn {
-  padding: 13px 20px;
-
-  border: none;
-
-  border-radius: 10px;
-
-  background: #3e8c8d;
-
-  color: white;
-
-  cursor: pointer;
-
+  flex: 0 0 auto;
+  padding: 13px 22px;
+  border: 1px solid #B94F76;
+  border-radius: 12px;
+  background: #B94F76;
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 15px;
   font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 .clear-btn:hover {
-  opacity: 0.9;
+  background: #A84168;
 }
 
-
-/* =====================================
-   RESULT COUNT
-===================================== */
-
+/* Result count */
 .results-info {
-  max-width: 1200px;
-
-  margin: 30px auto 15px;
-
-  padding: 0 10px;
+  margin-top: 24px;
+  margin-bottom: 15px;
 }
 
 .results-info p {
-  color: #666;
-
-  font-size: 14px;
+  margin: 0;
+  color: #6B6468;
+  font-size: 16px;
 }
 
+.results-info strong {
+  color: #383438;
+}
 
-/* =====================================
-   GRID
-===================================== */
-
+/* Cards container */
 .schemes-container {
-  max-width: 1200px;
-
-  margin: auto;
-
-  padding: 0 10px;
+  margin-top: 0;
+  padding: 0;
 }
 
 .schemes-grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  gap: 22px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 24px;
+  width: 100%;
 }
 
-
-/* =====================================
-   CARD
-===================================== */
-
+/* Scheme card */
 .scheme-card {
-  background: #fffdfc;
-
-  border-radius: 18px;
-
-  padding: 24px;
-
-  border: 1px solid #eee4df;
-
-  box-shadow:
-    0 7px 22px rgba(59,59,59,0.07);
-
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-
   display: flex;
-
   flex-direction: column;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 26px;
+  border: 1px solid #EADDE2;
+  border-radius: 24px;
+  background: #FFFDFC;
+  box-shadow: 0 8px 26px rgba(56, 52, 56, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .scheme-card:hover {
-  transform: translateY(-5px);
-
-  box-shadow:
-    0 14px 32px rgba(59,59,59,0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(56, 52, 56, 0.09);
 }
-
-
-/* =====================================
-   CARD TOP
-===================================== */
 
 .card-top {
   display: flex;
-
+  align-items: flex-start;
   justify-content: space-between;
-
-  gap: 8px;
-
-  margin-bottom: 16px;
-
   flex-wrap: wrap;
-}
-
-.category-badge {
-  background: rgba(184,79,115,0.10);
-
-  color: #b84f73;
-
-  padding: 6px 10px;
-
-  border-radius: 20px;
-
-  font-size: 11px;
-
-  font-weight: 600;
-}
-
-.government-badge {
-  background: rgba(62,140,141,0.10);
-
-  color: #3e8c8d;
-
-  padding: 6px 10px;
-
-  border-radius: 20px;
-
-  font-size: 11px;
-
-  font-weight: 600;
-}
-
-
-/* =====================================
-   TITLE
-===================================== */
-
-.scheme-card h2 {
-  font-size: 21px;
-
-  line-height: 1.35;
-
-  margin: 0 0 12px;
-
-  color: #3b3b3b;
-}
-
-.purpose {
-  color: #666;
-
-  line-height: 1.6;
-
-  font-size: 14px;
-
+  gap: 8px;
   margin-bottom: 18px;
 }
 
+.category-badge,
+.government-badge {
+  display: inline-block;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 7px 12px;
+  border-radius: 24px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  background: #F5E5EC;
+  color: #984566;
+}
 
-/* =====================================
-   INFORMATION
-===================================== */
+.scheme-card h2 {
+  margin: 0 0 14px;
+  color: #383438;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.scheme-card .purpose {
+  margin: 0 0 18px;
+  color: #6B6468;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
 
 .info-block {
   margin-top: 12px;
 }
 
 .info-block h4 {
-  color: #b84f73;
-
-  font-size: 14px;
-
-  margin-bottom: 6px;
+  margin: 0 0 8px;
+  color: #984566;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .info-block p {
-  font-size: 13px;
-
-  line-height: 1.6;
-
-  color: #555;
-
   margin: 0;
+  color: #5B5559;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
 .expanded-content {
-  border-top: 1px solid #eee4df;
-
-  margin-top: 10px;
-
-  padding-top: 8px;
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid #E7D9DF;
 }
-
-
-/* =====================================
-   ACTIONS
-===================================== */
 
 .card-actions {
   display: flex;
-
+  align-items: stretch;
   gap: 10px;
-
   margin-top: auto;
-
-  padding-top: 22px;
-
-  flex-wrap: wrap;
+  padding-top: 24px;
 }
 
 .details-btn,
 .official-btn {
-  flex: 1;
-
-  min-width: 130px;
-
-  text-align: center;
-
-  padding: 11px 12px;
-
-  border-radius: 10px;
-
-  font-size: 13px;
-
+  display: inline-flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
   font-weight: 600;
-
-  cursor: pointer;
-
+  line-height: 1.4;
+  text-align: center;
   text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .details-btn {
-  background: #b84f73;
+  border: 1px solid var(--rose, #7B4568);
+  background: var(--rose, #7B4568);
+  color: #FFFFFF;
+}
 
-  border: 1px solid #b84f73;
-
-  color: white;
+.details-btn:hover {
+  background: #653650;
+  border-color: #653650;
+  color: #FFFFFF;
 }
 
 .official-btn {
+  border: 1px solid var(--rose, #7B4568);
   background: transparent;
-
-  border: 1px solid #3e8c8d;
-
-  color: #3e8c8d;
+  color: var(--rose, #7B4568);
 }
 
-.details-btn:hover,
 .official-btn:hover {
-  opacity: 0.88;
+  background: #F5E5EC;
+  border-color: var(--rose, #7B4568);
+  color: #653650;
 }
 
-
-/* =====================================
-   LOADING
-===================================== */
-
+/* Loading */
 .loading {
+  padding: 60px 20px;
   text-align: center;
-
-  padding: 70px 20px;
 }
 
 .spinner {
-  width: 35px;
-
-  height: 35px;
-
-  border: 4px solid #eadfe0;
-
-  border-top-color: #b84f73;
-
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 16px;
+  border: 4px solid #E7D9DF;
+  border-top-color: #B94F76;
   border-radius: 50%;
-
-  margin: auto;
-
-  animation: spin 0.8s linear infinite;
+  animation: schemes-spin 0.8s linear infinite;
 }
 
-@keyframes spin {
+@keyframes schemes-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-
-/* =====================================
-   NO RESULTS / ERROR
-===================================== */
-
+/* Empty and error states */
 .no-results,
 .error-message {
-  background: #fffdfc;
-
-  padding: 60px 20px;
-
-  border-radius: 18px;
-
+  padding: 50px 24px;
+  border: 1px solid #EADDE2;
+  border-radius: 22px;
+  background: #FFFDFC;
   text-align: center;
 }
 
 .no-results-icon {
-  font-size: 35px;
-
   margin-bottom: 10px;
+  font-size: 34px;
 }
 
 .no-results h3,
 .error-message h3 {
-  margin-bottom: 8px;
+  margin: 0 0 8px;
+  color: #383438;
 }
 
 .no-results p,
 .error-message p {
-  color: #777;
+  color: #6B6468;
+  line-height: 1.6;
 }
 
+/* =========================================
+   SCHEME DETAILS PAGE
+========================================= */
 
-/* =====================================
+.scheme-details-page {
+  min-height: 100vh;
+  padding-bottom: 60px;
+  background: #F7F3ED;
+  color: #383438;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.scheme-details-header {
+  padding: 45px 24px 55px;
+  background: linear-gradient(135deg, #7B4568, #653650);
+  color: #FFFFFF;
+}
+
+.scheme-details-header-inner {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.details-back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 28px;
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.details-back-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.scheme-details-header .section-label {
+  display: inline-block;
+  margin-bottom: 15px;
+  padding: 7px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 30px;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.scheme-details-header h1 {
+  max-width: 900px;
+  margin: 0;
+  color: #FFFFFF;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.details-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.scheme-details-header .category-badge,
+.scheme-details-header .government-badge {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+}
+
+.scheme-details-container {
+  width: calc(100% - 40px);
+  max-width: 1000px;
+  margin: 35px auto;
+  box-sizing: border-box;
+}
+
+.scheme-detail-section,
+.scheme-detail-action {
+  margin-bottom: 20px;
+  padding: 25px;
+  border: 1px solid #EADDE2;
+  border-radius: 18px;
+  background: #FFFDFC;
+  box-shadow: 0 7px 22px rgba(56, 52, 56, 0.05);
+}
+
+.scheme-detail-section h2,
+.scheme-detail-action h2 {
+  margin: 0 0 12px;
+  color: #984566;
+  font-size: 21px;
+}
+
+.scheme-detail-section p,
+.scheme-detail-action p {
+  color: #5B5559;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.scheme-detail-action p {
+  margin-bottom: 18px;
+}
+
+.scheme-detail-action .official-btn {
+  display: inline-flex;
+  width: fit-content;
+  flex: initial;
+}
+
+.scheme-details-bottom {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.documents-info {
+  margin-top: 18px;
+}
+
+.documents-list {
+  margin: 10px 0 0;
+  padding-left: 24px;
+  color: #5B5559;
+}
+
+.documents-list li {
+  margin-bottom: 8px;
+  padding-left: 5px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.documents-list li::marker {
+  color: #984566;
+  font-weight: 700;
+}
+
+/* =========================================
    RESPONSIVE
-===================================== */
+========================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
+  .schemes-header,
+  .filter-section,
+  .results-info,
+  .schemes-container {
+    width: calc(100% - 48px);
+  }
 
   .schemes-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
   }
-
 }
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
+  .schemes-page {
+    padding-top: 16px;
+  }
+
+  .schemes-header,
+  .filter-section,
+  .results-info,
+  .schemes-container {
+    width: calc(100% - 28px);
+  }
 
   .schemes-header {
-    padding: 45px 20px;
+    margin-bottom: 22px;
+    padding: 28px 22px;
+    border-radius: 24px;
   }
 
-  .schemes-header h1 {
-    font-size: 32px;
-  }
-
-  .schemes-header p {
+  .schemes-header .section-label {
     font-size: 15px;
   }
 
-  .filter-section {
-    margin-left: 12px;
-    margin-right: 12px;
+  .schemes-header h1 {
+    font-size: 34px;
   }
 
-  .schemes-grid {
-    grid-template-columns: 1fr;
+  .schemes-header p {
+    font-size: 16px;
+  }
+
+  .filter-section {
+    padding: 18px;
+    border-radius: 18px;
   }
 
   .filter-row {
@@ -521,288 +590,26 @@
   .filter-row select,
   .clear-btn {
     width: 100%;
+    min-width: 0;
   }
 
-}
-/* =====================================
-   SCHEME DETAILS PAGE
-   Uses existing UNNATI colour palette
-===================================== */
-
-.scheme-details-page {
-  min-height: 100vh;
-  background: #f7f3ec;
-  color: #3b3b3b;
-  padding-bottom: 60px;
-}
-
-
-/* =====================================
-   DETAILS HEADER
-===================================== */
-
-.scheme-details-header {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(184, 79, 115, 0.95),
-      rgba(230, 138, 106, 0.92)
-    );
-
-  padding: 45px 20px 55px;
-
-  color: white;
-}
-
-.scheme-details-header-inner {
-  max-width: 1000px;
-  margin: auto;
-}
-
-
-/* =====================================
-   BACK BUTTON
-===================================== */
-
-.details-back-btn {
-  display: inline-flex;
-  align-items: center;
-
-  margin-bottom: 28px;
-
-  padding: 10px 16px;
-
-  border: 1px solid rgba(255,255,255,0.55);
-  border-radius: 10px;
-
-  background: rgba(255,255,255,0.12);
-
-  color: white;
-
-  font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: 0.2s ease;
-}
-
-.details-back-btn:hover {
-  background: rgba(255,255,255,0.22);
-}
-
-
-/* =====================================
-   DETAILS HEADER LABEL
-===================================== */
-
-.scheme-details-header .section-label {
-  display: inline-block;
-
-  padding: 7px 16px;
-
-  margin-bottom: 15px;
-
-  border: 1px solid rgba(255,255,255,0.5);
-  border-radius: 30px;
-
-  color: white;
-
-  font-size: 13px;
-  letter-spacing: 2px;
-}
-
-
-/* =====================================
-   DETAILS TITLE
-===================================== */
-
-.scheme-details-header h1 {
-  max-width: 900px;
-
-  margin: 0;
-
-  color: white;
-
-  font-size: 42px;
-  line-height: 1.3;
-
-  font-weight: 700;
-}
-
-
-/* =====================================
-   DETAILS BADGES
-===================================== */
-
-.details-badges {
-  display: flex;
-
-  gap: 8px;
-
-  flex-wrap: wrap;
-
-  margin-top: 20px;
-}
-
-.scheme-details-header .category-badge {
-  background: rgba(255,255,255,0.18);
-  color: white;
-
-  border: 1px solid rgba(255,255,255,0.35);
-}
-
-.scheme-details-header .government-badge {
-  background: rgba(62,140,141,0.95);
-  color: white;
-}
-
-
-/* =====================================
-   DETAILS CONTENT
-===================================== */
-
-.scheme-details-container {
-  max-width: 1000px;
-
-  margin: 35px auto;
-
-  padding: 0 20px;
-}
-
-
-/* =====================================
-   DETAIL CARD
-===================================== */
-
-.scheme-detail-section {
-  background: #fffdfc;
-
-  border-radius: 18px;
-
-  padding: 25px;
-
-  margin-bottom: 20px;
-
-  border: 1px solid #eee4df;
-
-  box-shadow:
-    0 7px 22px rgba(59,59,59,0.07);
-}
-
-.scheme-detail-section h2 {
-  margin: 0 0 12px;
-
-  color: #b84f73;
-
-  font-size: 21px;
-}
-
-.scheme-detail-section p {
-  margin: 0;
-
-  color: #555;
-
-  font-size: 14px;
-
-  line-height: 1.7;
-
-  white-space: pre-line;
-}
-
-
-/* =====================================
-   DETAILS ACTION CARD
-===================================== */
-
-.scheme-detail-action {
-  background: #fffdfc;
-
-  border-radius: 18px;
-
-  padding: 25px;
-
-  margin-top: 20px;
-
-  border: 1px solid #eee4df;
-
-  box-shadow:
-    0 7px 22px rgba(59,59,59,0.07);
-}
-
-.scheme-detail-action h2 {
-  margin: 0 0 10px;
-
-  color: #b84f73;
-
-  font-size: 21px;
-}
-
-.scheme-detail-action p {
-  margin: 0 0 18px;
-
-  color: #666;
-
-  font-size: 14px;
-
-  line-height: 1.6;
-}
-
-
-/* =====================================
-   OFFICIAL WEBSITE BUTTON
-   Same teal as existing page
-===================================== */
-
-.scheme-detail-action .official-btn {
-  display: inline-block;
-
-  padding: 11px 18px;
-
-  border-radius: 10px;
-
-  background: transparent;
-
-  border: 1px solid #3e8c8d;
-
-  color: #3e8c8d;
-
-  font-size: 13px;
-
-  font-weight: 600;
-
-  text-decoration: none;
-
-  cursor: pointer;
-
-  transition: 0.2s ease;
-}
-
-.scheme-detail-action .official-btn:hover {
-  background: #3e8c8d;
-
-  color: white;
-}
-
-
-/* =====================================
-   DETAILS BOTTOM BUTTON
-===================================== */
-
-.scheme-details-bottom {
-  display: flex;
-
-  justify-content: center;
-
-  margin-top: 30px;
-}
-
-
-/* =====================================
-   RESPONSIVE
-===================================== */
-
-@media (max-width: 600px) {
+  .results-info {
+    margin-top: 22px;
+  }
+
+  .schemes-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .scheme-card {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .scheme-card h2 {
+    font-size: 20px;
+  }
 
   .scheme-details-header {
     padding: 35px 20px 45px;
@@ -813,47 +620,12 @@
   }
 
   .scheme-details-container {
+    width: calc(100% - 28px);
     margin-top: 25px;
-
-    padding: 0 12px;
   }
 
   .scheme-detail-section,
   .scheme-detail-action {
     padding: 20px;
   }
-
-  .scheme-detail-section h2,
-  .scheme-detail-action h2 {
-    font-size: 19px;
-  }
-
-  .details-back-btn {
-    margin-bottom: 22px;
-  }
-}
-/* =====================================
-   DOCUMENTS REQUIRED - BULLET LIST
-===================================== */
-
-.documents-info {
-  margin-top: 18px;
-}
-
-.documents-list {
-  margin: 10px 0 0;
-  padding-left: 24px;
-  color: #555;
-}
-
-.documents-list li {
-  margin-bottom: 8px;
-  padding-left: 5px;
-  line-height: 1.6;
-  font-size: 14px;
-}
-
-.documents-list li::marker {
-  color: #b84f73;
-  font-weight: 700;
 }
