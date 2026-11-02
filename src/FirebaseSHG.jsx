@@ -4,7 +4,7 @@ import { db } from "./firebase";
 import { localized } from "./i18n";
 import "./FirebaseResources.css";
 
-export default function FirebaseSHG({ lang = "en", t }) {
+export default function FirebaseSHG({ lang = "en", t, saved = [], onSave }) {
   const [shgs, setShgs] = useState([]);
   const [district, setDistrict] = useState("All");
   const [taluka, setTaluka] = useState("All");
@@ -435,6 +435,17 @@ export default function FirebaseSHG({ lang = "en", t }) {
                 <p className="firebase-note">
                   {t.verifyShg}
                 </p>
+
+                <button
+                  type="button"
+                  className="save-resource-btn"
+                  aria-pressed={saved.includes(`shg_${s.id}`)}
+                  onClick={() => onSave?.(s)}
+                >
+                  {saved.includes(`shg_${s.id}`)
+                    ? (lang === "hi" ? "🔖 सहेजा गया" : lang === "mr" ? "🔖 जतन केले" : "🔖 Saved")
+                    : (lang === "hi" ? "🔖 समूह सहेजें" : lang === "mr" ? "🔖 गट जतन करा" : "🔖 Save SHG")}
+                </button>
 
               </article>
             );

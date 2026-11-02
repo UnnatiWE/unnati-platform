@@ -18,6 +18,8 @@ export default function GovernmentSchemes({
   lang = "en",
   t,
   onViewDetails,
+  saved = [],
+  onSave,
 }) {
   const [schemes, setSchemes] = useState([]);
   const [search, setSearch] = useState("");
@@ -358,9 +360,9 @@ export default function GovernmentSchemes({
                     scheme={scheme}
                     lang={lang}
                     t={t}
-                    onViewDetails={
-                      onViewDetails
-                    }
+                    onViewDetails={onViewDetails}
+                    saved={saved}
+                    onSave={onSave}
                   />
 
                 )
@@ -386,6 +388,8 @@ function SchemeCard({
   lang,
   t,
   onViewDetails,
+  saved = [],
+  onSave,
 }) {
 
   return (
@@ -458,6 +462,17 @@ function SchemeCard({
       {/* BUTTONS */}
 
       <div className="card-actions">
+
+        <button
+          type="button"
+          className="save-resource-btn"
+          aria-pressed={saved.includes(`scheme_${scheme.id}`)}
+          onClick={() => onSave?.(scheme)}
+        >
+          {saved.includes(`scheme_${scheme.id}`)
+            ? (lang === "hi" ? "🔖 सहेजा गया" : lang === "mr" ? "🔖 जतन केले" : "🔖 Saved")
+            : (lang === "hi" ? "🔖 योजना सहेजें" : lang === "mr" ? "🔖 योजना जतन करा" : "🔖 Save Scheme")}
+        </button>
 
         <button
           className="details-btn"
