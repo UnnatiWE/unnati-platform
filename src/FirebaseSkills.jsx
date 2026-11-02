@@ -59,7 +59,7 @@ function getSkillImage(skill) {
 
   return match ? `/images/skills/${match[1]}` : null;
 }
-export default function FirebaseSkills({lang="en",t}){const[skills,setSkills]=useState([]),[search,setSearch]=useState(""),[category,setCategory]=useState("All"),[loading,setLoading]=useState(true),[error,setError]=useState("");useEffect(()=>{getDocs(collection(db,"skills")).then(s=>setSkills(s.docs.map(d=>({id:d.id,...d.data()})))).catch(e=>setError(`${e.code||"error"}: ${e.message||t.unableSkills}`)).finally(()=>setLoading(false))},[t.unableSkills]);const categories=useMemo(()=>["All",...Array.from(new Set(skills.map(s=>localized(s,"category",lang)).filter(Boolean))).sort()],[skills,lang]);const filtered=useMemo(()=>{const q=search.toLowerCase().trim();return skills.filter(s=>{const name=localized(s,"skill_name",lang),cat=localized(s,"category",lang),desc=localized(s,"description",lang);return(!q||[name,cat,desc].some(v=>String(v||"").toLowerCase().includes(q)))&&(category==="All"||cat===category)})},[skills,search,category,lang]);return <section className="firebase-page"><div className="firebase-hero"><span>UNNATI • {t.skills}</span><h1>{t.skills}</h1><p>{t.skillsHero}</p></div><div className="contextual-tip-banner" role="status"><p>{t.tipSkills}</p></div><div className="firebase-filters"><input value={search} onChange={e=>setSearch(e.target.value)} placeholder={t.searchSkills}/><select value={category} onChange={e=>setCategory(e.target.value)}>{categories.map(c=><option key={c}>{c}</option>)}</select><button onClick={()=>{setSearch("");setCategory("All")}}>{t.clear}</button></div><p className="firebase-count">{t.showing} <b>{filtered.length}</b> {t.skillsWord}</p>{loading&&<div className="firebase-state">{t.loading}...</div>}{error&&!loading&&<div className="firebase-error">{t.unableSkills}<br/>{error}</div>}{!loading&&!error&&!filtered.length&&<div className="firebase-state">{t.noSkills}</div>}{!loading&&!error&&filtered.length>0&&<div className="firebase-grid">
+export default function FirebaseSkills({lang="en",t,saved=[],onSave}){const[skills,setSkills]=useState([]),[search,setSearch]=useState(""),[category,setCategory]=useState("All"),[loading,setLoading]=useState(true),[error,setError]=useState("");useEffect(()=>{getDocs(collection(db,"skills")).then(s=>setSkills(s.docs.map(d=>({id:d.id,...d.data()})))).catch(e=>setError(`${e.code||"error"}: ${e.message||t.unableSkills}`)).finally(()=>setLoading(false))},[t.unableSkills]);const categories=useMemo(()=>["All",...Array.from(new Set(skills.map(s=>localized(s,"category",lang)).filter(Boolean))).sort()],[skills,lang]);const filtered=useMemo(()=>{const q=search.toLowerCase().trim();return skills.filter(s=>{const name=localized(s,"skill_name",lang),cat=localized(s,"category",lang),desc=localized(s,"description",lang);return(!q||[name,cat,desc].some(v=>String(v||"").toLowerCase().includes(q)))&&(category==="All"||cat===category)})},[skills,search,category,lang]);return <section className="firebase-page"><div className="firebase-hero"><span>UNNATI • {t.skills}</span><h1>{t.skills}</h1><p>{t.skillsHero}</p></div><div className="contextual-tip-banner" role="status"><p>{t.tipSkills}</p></div><div className="firebase-filters"><input value={search} onChange={e=>setSearch(e.target.value)} placeholder={t.searchSkills}/><select value={category} onChange={e=>setCategory(e.target.value)}>{categories.map(c=><option key={c}>{c}</option>)}</select><button onClick={()=>{setSearch("");setCategory("All")}}>{t.clear}</button></div><p className="firebase-count">{t.showing} <b>{filtered.length}</b> {t.skillsWord}</p>{loading&&<div className="firebase-state">{t.loading}...</div>}{error&&!loading&&<div className="firebase-error">{t.unableSkills}<br/>{error}</div>}{!loading&&!error&&!filtered.length&&<div className="firebase-state">{t.noSkills}</div>}{!loading&&!error&&filtered.length>0&&<div className="firebase-grid">
   {filtered.map((s) => {
     const image = getSkillImage(s);
 
@@ -84,6 +84,17 @@ export default function FirebaseSkills({lang="en",t}){const[skills,setSkills]=us
         <h2>{localized(s, "skill_name", lang)}</h2>
 
         <p>{localized(s, "description", lang)}</p>
+
+        <button
+          type="button"
+          className="save-resource-btn"
+          aria-pressed={saved.includes(`skill_${s.id}`)}
+          onClick={() => onSave?.(s)}
+        >
+          {saved.includes(`skill_${s.id}`)
+            ? (lang === "hi" ? "🔖 सहेजा गया" : lang === "mr" ? "🔖 जतन केले" : "🔖 Saved")
+            : (lang === "hi" ? "🔖 कौशल सहेजें" : lang === "mr" ? "🔖 कौशल्य जतन करा" : "🔖 Save Skill")}
+        </button>
 
         {s.learning_link && (
           <a
