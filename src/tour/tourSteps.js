@@ -1,6 +1,6 @@
 // =======================================================
 // UNNATI TOUR STEPS DEFINITION
-// 10 Steps guiding users through UNNATI platform features
+// 9 Steps guiding users through UNNATI platform features
 // =======================================================
 
 export const TOUR_STEPS = [
@@ -86,20 +86,11 @@ export const TOUR_STEPS = [
     position: "bottom"
   },
   {
-    id: "darkmode",
+    id: "guide",
     stepNumber: 9,
-    icon: "🌙",
+    icon: "❓",
     titleKey: "tourStep9Title",
     descKey: "tourStep9Desc",
-    target: ".theme-toggle",
-    position: "bottom"
-  },
-  {
-    id: "guide",
-    stepNumber: 10,
-    icon: "❓",
-    titleKey: "tourStep10Title",
-    descKey: "tourStep10Desc",
     target: '[data-tour="guide-btn"]',
     fallbackTarget: ".header-right",
     position: "bottom"

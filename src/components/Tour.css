@@ -301,88 +301,6 @@
   color: #4a4340;
 }
 
-/* =======================================================
-   DARK MODE ADAPTATION
-   Matches UNNATI's existing dark-mode.css variables
-   ======================================================= */
-
-body.dark-mode .tour-backdrop-panel {
-  background: rgba(0, 0, 0, 0.82);
-  backdrop-filter: blur(2.5px);
-  -webkit-backdrop-filter: blur(2.5px);
-}
-
-body.dark-mode .tour-focus-frame {
-  border-color: var(--tour-rose);
-  box-shadow: 0 0 28px rgba(184, 79, 115, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.15);
-}
-
-body.dark-mode .tour-popup {
-  background: #242424;
-  color: #f5f5f5;
-  border-color: #3d3d3d;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75);
-}
-
-body.dark-mode .tour-title {
-  color: #ffffff;
-}
-
-body.dark-mode .tour-description {
-  color: #c4c4c4;
-}
-
-body.dark-mode .tour-header-badge {
-  background: rgba(184, 79, 115, 0.25);
-  color: #f48fae;
-}
-
-body.dark-mode .tour-close-btn {
-  color: #999999;
-}
-
-body.dark-mode .tour-close-btn:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode .tour-progress-label {
-  color: #a0a0a0;
-}
-
-body.dark-mode .tour-progress-track {
-  background: #333333;
-}
-
-body.dark-mode .tour-btn.tour-btn-back {
-  background: #2b2b2b;
-  color: #e0e0e0;
-  border-color: #444444;
-}
-
-body.dark-mode .tour-btn.tour-btn-back:hover:not(:disabled) {
-  background: #363636;
-  border-color: #666666;
-}
-
-body.dark-mode .tour-skip-btn {
-  color: #999999;
-}
-
-body.dark-mode .tour-skip-btn:hover {
-  color: #f48fae;
-}
-
-body.dark-mode .tour-keyboard-hint {
-  border-top-color: #3d3d3d;
-  color: #888888;
-}
-
-body.dark-mode .tour-keyboard-hint kbd {
-  background: #303030;
-  border-color: #4a4a4a;
-  color: #d0d0d0;
-}
 
 /* =======================================================
    CONTEXTUAL TIP BARS
@@ -430,21 +348,6 @@ body.dark-mode .tour-keyboard-hint kbd {
 
 .contextual-tip-close:hover {
   color: var(--tour-rose);
-}
-
-body.dark-mode .contextual-tip-banner {
-  background: #252022;
-  border-color: #47323b;
-  border-left-color: var(--tour-rose);
-  color: #ded1cb;
-}
-
-body.dark-mode .contextual-tip-close {
-  color: #999999;
-}
-
-body.dark-mode .contextual-tip-close:hover {
-  color: #ffffff;
 }
 
 /* =======================================================

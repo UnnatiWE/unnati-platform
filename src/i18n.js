@@ -108,7 +108,7 @@ export const translations = {
     tourAllSetTitle: "You're all set!",
     tourAllSetDesc: 'Now you know how to use UNNATI. You can restart the guide anytime using the Guide button.',
 
-    // 10 Tour Steps
+    // 9 Tour Steps
     tourStep1Title: 'Welcome to UNNATI',
     tourStep1Desc: 'UNNATI is a platform that helps users discover useful schemes, skills, SHGs and support resources across Maharashtra.',
     tourStep2Title: 'UNNATI Dashboard',
@@ -125,8 +125,8 @@ export const translations = {
     tourStep7Desc: 'Save useful resources and access them later from your saved resources on your dashboard.',
     tourStep8Title: 'Language Selector',
     tourStep8Desc: 'UNNATI supports English, Hindi and Marathi. Use the language selector to change the website language.',
-    tourStep9Title: 'Light & Dark Mode',
-    tourStep9Desc: 'Switch between Light Mode and Dark Mode according to your preference.',
+    tourStep9Title: 'Permanent Guide',
+    tourStep9Desc: 'You can restart this guide anytime using the Guide button.',
     tourStep10Title: 'Permanent Guide',
     tourStep10Desc: 'You can restart this guide anytime using the Guide button.',
 
@@ -247,7 +247,7 @@ export const translations = {
     tourAllSetTitle: 'आप पूरी तरह तैयार हैं!',
     tourAllSetDesc: 'अब आप जानते हैं कि UNNATI का उपयोग कैसे करें। आप गाइड बटन का उपयोग करके किसी भी समय गाइड को पुनः प्रारंभ कर सकते हैं।',
 
-    // 10 Tour Steps
+    // 9 Tour Steps
     tourStep1Title: 'UNNATI में आपका स्वागत है',
     tourStep1Desc: 'UNNATI एक ऐसा मंच है जो उपयोगकर्ताओं को पूरे महाराष्ट्र में उपयोगी योजनाओं, कौशल, स्वयं सहायता समूहों और सहायता संसाधनों की खोज करने में मदद करता है।',
     tourStep2Title: 'UNNATI डैशबोर्ड',
@@ -264,8 +264,8 @@ export const translations = {
     tourStep7Desc: 'उपयोगी संसाधनों को सहेजें और बाद में अपने डैशबोर्ड पर सहेजे गए संसाधनों से उन्हें आसानी से देखें।',
     tourStep8Title: 'भाषा चयनकर्ता',
     tourStep8Desc: 'UNNATI अंग्रेजी, हिंदी और मराठी का समर्थन करता है। वेबसाइट की भाषा बदलने के लिए भाषा चयनकर्ता का उपयोग करें।',
-    tourStep9Title: 'लाइट और डार्क मोड',
-    tourStep9Desc: 'अपनी पसंद और सुविधा के अनुसार लाइट मोड और डार्क मोड के बीच स्विच करें।',
+    tourStep9Title: 'स्थायी मार्गदर्शिका',
+    tourStep9Desc: 'आप गाइड बटन का उपयोग करके किसी भी समय इस गाइड को पुनः प्रारंभ कर सकते हैं।',
     tourStep10Title: 'स्थायी मार्गदर्शिका',
     tourStep10Desc: 'आप गाइड बटन का उपयोग करके किसी भी समय इस गाइड को पुनः प्रारंभ कर सकते हैं।',
 
@@ -386,7 +386,7 @@ export const translations = {
     tourAllSetTitle: 'तुम्ही सज्ज आहात!',
     tourAllSetDesc: 'आता तुम्हाला UNNATI चा वापर कसा करायचा हे माहित आहे. तुम्ही गाइड बटण वापरून कधीही हे मार्गदर्शक पुन्हा सुरू करू शकता.',
 
-    // 10 Tour Steps
+    // 9 Tour Steps
     tourStep1Title: 'UNNATI मध्ये आपले स्वागत आहे',
     tourStep1Desc: 'UNNATI हे एक व्यासपीठ आहे जे वापरकर्त्यांना संपूर्ण महाराष्ट्रातील उपयुक्त योजना, कौशल्ये, स्वयं-सहायता गट आणि आधार संसाधने शोधण्यात मदत करते.',
     tourStep2Title: 'UNNATI डॅशबोर्ड',
@@ -403,8 +403,8 @@ export const translations = {
     tourStep7Desc: 'उपयुक्त संसाधने जतन करा आणि नंतर आपल्या डॅशबोर्डवरील जतन केलेल्या संसाधनांमधून ती पुन्हा पहा.',
     tourStep8Title: 'भाषा निवड',
     tourStep8Desc: 'UNNATI इंग्रजी, हिंदी आणि मराठीला समर्थन देते. वेबसाइटची भाषा बदलण्यासाठी भाषा निवडकर्ता वापरा.',
-    tourStep9Title: 'लाइट आणि डार्क मोड',
-    tourStep9Desc: 'आपल्या आवडीनुसार आणि सोयीनुसार लाइट मोड आणि डार्क मोडमध्ये बदल करा.',
+    tourStep9Title: 'कायमस्वरूपी मार्गदर्शक',
+    tourStep9Desc: 'तुम्ही गाइड बटण वापरून कधीही हे मार्गदर्शक पुन्हा सुरू करू शकता.',
     tourStep10Title: 'कायमस्वरूपी मार्गदर्शक',
     tourStep10Desc: 'तुम्ही गाइड बटण वापरून कधीही हे मार्गदर्शक पुन्हा सुरू करू शकता.',
 
