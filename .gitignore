@@ -1,10 +1,28 @@
-# Environment variables
+# Environment variables and secrets
 .env
+.env.*
+!.env.example
 .env.local
 .env.*.local
 
+# Backend environment files
+server/.env
+server/.env.*
+server/.env.local
+
+# Firebase private credentials
+serviceAccountKey.json
+serviceAccountKey*.json
+service-account*.json
+*firebase-adminsdk*.json
+*service-account*.json
+server/serviceAccountKey.json
+server/*firebase-adminsdk*.json
+server/*service-account*.json
+
 # Dependencies
 node_modules/
+server/node_modules/
 
 # Build output
 dist/
@@ -15,25 +33,3 @@ dist/
 # OS files
 .DS_Store
 Thumbs.db
-# Private authentication credentials
-server/.env
-server/serviceAccountKey.json
-serviceAccountKey*.json
-service-account*.json
-
-# Frontend environment files
-.env
-.env.local
-.env.*.local
-# Environment secrets
-.env
-.env.*
-!.env.example
-
-# Firebase private credentials
-server/*firebase-adminsdk*.json
-server/*service-account*.json
-
-# Dependencies and builds
-node_modules/
-dist/

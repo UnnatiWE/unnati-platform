@@ -5,13 +5,14 @@ import cors from "cors";
 import twilio from "twilio";
 import rateLimit from "express-rate-limit";
 import crypto from "node:crypto";
+import fs from "node:fs";
 import admin from "firebase-admin";
 
+// Required Twilio environment variables
 const requiredEnv = [
   "TWILIO_ACCOUNT_SID",
   "TWILIO_AUTH_TOKEN",
   "TWILIO_VERIFY_SERVICE_SID",
-  "FIREBASE_SERVICE_ACCOUNT_JSON",
 ];
 
 for (const key of requiredEnv) {
@@ -20,65 +21,127 @@ for (const key of requiredEnv) {
   }
 }
 
-const serviceAccount = JSON.parse(
-  process.env.FIREBASE_SERVICE_ACCOUNT_JSON
-);
+// Load Firebase credentials:
+// 1. Vercel: FIREBASE_SERVICE_ACCOUNT_JSON
+// 2. Local: server/serviceAccountKey.json
+let serviceAccount;
 
+if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
+  try {
+    serviceAccount = JSON.parse(
+      process.env.FIREBASE_SERVICE_ACCOUNT_JSON
+    );
+  } catch {
+    throw new Error(
+      "FIREBASE_SERVICE_ACCOUNT_JSON is invalid JSON."
+    );
+  }
+} else {
+  const serviceAccountPath = new URL(
+    "./serviceAccountKey.json",
+    import.meta.url
+  );
+
+  if (!fs.existsSync(serviceAccountPath)) {
+    throw new Error(
+      "Missing Firebase credentials. Set FIREBASE_SERVICE_ACCOUNT_JSON in Vercel or place serviceAccountKey.json inside the server folder."
+    );
+  }
+
+  try {
+    serviceAccount = JSON.parse(
+      fs.readFileSync(serviceAccountPath, "utf8")
+    );
+  } catch {
+    throw new Error(
+      "Firebase serviceAccountKey.json is invalid JSON."
+    );
+  }
+}
+
+// Validate Firebase service-account JSON
+if (
+  serviceAccount.type !== "service_account" ||
+  !serviceAccount.project_id ||
+  !serviceAccount.private_key ||
+  !serviceAccount.client_email
+) {
+  throw new Error(
+    "Firebase service-account JSON is missing required fields."
+  );
+}
+
+// Initialize Firebase Admin
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
+    projectId: serviceAccount.project_id,
   });
 }
 
 const db = admin.firestore();
 const firebaseAuth = admin.auth();
 
+// Initialize Twilio
 const twilioClient = twilio(
   process.env.TWILIO_ACCOUNT_SID,
   process.env.TWILIO_AUTH_TOKEN
 );
 
+// Express application
 const app = express();
 const PORT = Number(process.env.PORT || 5000);
 
-const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
+// Allowed frontend origins
+const allowedOrigins = (
+  process.env.FRONTEND_URL || "http://localhost:5173"
+)
   .split(",")
-  .map((origin) => origin.trim())
+  .map((origin) => origin.trim().replace(/\/+$/, ""))
   .filter(Boolean);
 
 app.disable("x-powered-by");
 
+// CORS configuration
 app.use(
   cors({
     origin(origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
+
       return callback(new Error("Origin not allowed by CORS"));
     },
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
 app.use(express.json({ limit: "20kb" }));
 
+// OTP rate limiter
 const otpLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 5,
   standardHeaders: "draft-7",
   legacyHeaders: false,
-  message: { error: "Too many OTP requests. Please try again later." },
+  message: {
+    error: "Too many OTP requests. Please try again later.",
+  },
 });
 
+// Authentication rate limiter
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 10,
   standardHeaders: "draft-7",
   legacyHeaders: false,
-  message: { error: "Too many attempts. Please try again later." },
+  message: {
+    error: "Too many attempts. Please try again later.",
+  },
 });
 
+// Normalize Indian or international phone numbers
 function normalizePhone(value) {
   if (typeof value !== "string") {
     throw new Error("Enter a valid mobile number.");
@@ -86,38 +149,44 @@ function normalizePhone(value) {
 
   const input = value.trim().replace(/[\s()-]/g, "");
 
-  // Accept international E.164 or a 10-digit Indian mobile number.
-  let phone;
-
   if (/^\+[1-9]\d{7,14}$/.test(input)) {
-    phone = input;
-  } else if (/^[6-9]\d{9}$/.test(input)) {
-    phone = `+91${input}`;
-  } else if (/^91[6-9]\d{9}$/.test(input)) {
-    phone = `+${input}`;
-  } else {
-    throw new Error(
-      "Enter a valid mobile number, for example +919876543210."
-    );
+    return input;
   }
 
-  return phone;
+  if (/^[6-9]\d{9}$/.test(input)) {
+    return `+91${input}`;
+  }
+
+  if (/^91[6-9]\d{9}$/.test(input)) {
+    return `+${input}`;
+  }
+
+  throw new Error(
+    "Enter a valid mobile number, for example +919876543210."
+  );
 }
 
+// Hash phone number before using it as a Firestore document ID
 function phoneKey(phone) {
-  return crypto.createHash("sha256").update(phone).digest("hex");
+  return crypto
+    .createHash("sha256")
+    .update(phone)
+    .digest("hex");
 }
 
 function phoneMapping(phone) {
   return db.collection("phoneAuth").doc(phoneKey(phone));
 }
 
+// Find Firebase user by phone number
 async function findUserByPhone(phone) {
   const mapping = await phoneMapping(phone).get();
 
   if (mapping.exists && mapping.data()?.uid) {
     try {
-      const user = await firebaseAuth.getUser(mapping.data().uid);
+      const user = await firebaseAuth.getUser(
+        mapping.data().uid
+      );
 
       if (user.phoneNumber === phone) {
         return user;
@@ -128,6 +197,7 @@ async function findUserByPhone(phone) {
       if (error.code !== "auth/user-not-found") {
         throw error;
       }
+
       await mapping.ref.delete();
     }
   }
@@ -146,10 +216,12 @@ async function findUserByPhone(phone) {
     if (error.code === "auth/user-not-found") {
       return null;
     }
+
     throw error;
   }
 }
 
+// Send OTP using Twilio Verify
 async function sendVerification(phone) {
   const result = await twilioClient.verify.v2
     .services(process.env.TWILIO_VERIFY_SERVICE_SID)
@@ -161,6 +233,7 @@ async function sendVerification(phone) {
   return result.status;
 }
 
+// Verify OTP using Twilio Verify
 async function verifyCode(phone, code) {
   const result = await twilioClient.verify.v2
     .services(process.env.TWILIO_VERIFY_SERVICE_SID)
@@ -172,64 +245,78 @@ async function verifyCode(phone, code) {
   return result.status === "approved";
 }
 
+// Safe error response
 function safeError(error) {
   console.error(error);
   return "Request failed. Check your details and try again.";
 }
 
+// Health check
 app.get("/health", (_req, res) => {
-  res.json({ ok: true, service: "unnati-auth" });
+  res.json({
+    ok: true,
+    service: "unnati-auth",
+  });
 });
 
-// Send OTP for registration or login.
+// Send OTP for signup or login
 app.post("/api/otp/send", otpLimiter, async (req, res) => {
   try {
     const { purpose } = req.body;
     const phone = normalizePhone(req.body.phone);
 
     if (!["signup", "login"].includes(purpose)) {
-      return res.status(400).json({ error: "Invalid OTP purpose." });
+      return res.status(400).json({
+        error: "Invalid OTP purpose.",
+      });
     }
 
     const existingUser = await findUserByPhone(phone);
 
     if (purpose === "signup" && existingUser) {
       return res.status(409).json({
-        error: "This mobile number is already registered. Please log in.",
+        error:
+          "This mobile number is already registered. Please log in.",
       });
     }
 
     if (purpose === "login" && !existingUser) {
       return res.status(404).json({
-        error: "No account found for this number. Please register first.",
+        error:
+          "No account found for this number. Please register first.",
       });
     }
 
     await sendVerification(phone);
 
-    return res.json({ ok: true, message: "OTP sent successfully." });
+    return res.json({
+      ok: true,
+      message: "OTP sent successfully.",
+    });
   } catch (error) {
     const message = error.message || "";
     const status = message.startsWith("Enter a valid") ? 400 : 500;
 
     return res.status(status).json({
-      error:
-        status === 400
-          ? message
-          : safeError(error),
+      error: status === 400 ? message : safeError(error),
     });
   }
 });
 
-// Verify OTP first, then create a phone-only Firebase user.
+// Signup using phone number and OTP
 app.post("/api/auth/signup", authLimiter, async (req, res) => {
   let createdUid = null;
-  let phone = null;
 
   try {
-    phone = normalizePhone(req.body.phone);
+    const phone = normalizePhone(req.body.phone);
 
-    const { code, name, district, ageGroup = "", occupation = "" } = req.body;
+    const {
+      code,
+      name,
+      district,
+      ageGroup,
+      occupation = "",
+    } = req.body;
 
     if (
       typeof code !== "string" ||
@@ -237,26 +324,30 @@ app.post("/api/auth/signup", authLimiter, async (req, res) => {
       typeof name !== "string" ||
       !name.trim() ||
       typeof district !== "string" ||
-      !district.trim()
+      !district.trim() ||
+      typeof ageGroup !== "string" ||
+      !ageGroup.trim()
     ) {
       return res.status(400).json({
-        error: "Phone, valid OTP, name and district are required.",
+        error:
+          "Phone, valid OTP, name, district and age group are required.",
       });
     }
 
-    // OTP approval is required before account creation.
     const approved = await verifyCode(phone, code);
 
     if (!approved) {
-      return res.status(400).json({ error: "Incorrect or expired OTP." });
+      return res.status(400).json({
+        error: "Incorrect or expired OTP.",
+      });
     }
 
-    // Recheck after verification to prevent duplicate phone registration.
     const existingUser = await findUserByPhone(phone);
 
     if (existingUser) {
       return res.status(409).json({
-        error: "This mobile number is already registered. Please log in.",
+        error:
+          "This mobile number is already registered. Please log in.",
       });
     }
 
@@ -273,7 +364,7 @@ app.post("/api/auth/signup", authLimiter, async (req, res) => {
       phoneNumber: phone,
       phoneVerified: true,
       district: district.trim(),
-      ageGroup: String(ageGroup || ""),
+      ageGroup: ageGroup.trim(),
       occupation: String(occupation || ""),
       preferredLanguage: "en",
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -281,7 +372,10 @@ app.post("/api/auth/signup", authLimiter, async (req, res) => {
 
     const batch = db.batch();
 
-    batch.set(db.collection("users").doc(userRecord.uid), profile);
+    batch.set(
+      db.collection("users").doc(userRecord.uid),
+      profile
+    );
 
     batch.set(phoneMapping(phone), {
       uid: userRecord.uid,
@@ -291,7 +385,9 @@ app.post("/api/auth/signup", authLimiter, async (req, res) => {
 
     await batch.commit();
 
-    const token = await firebaseAuth.createCustomToken(userRecord.uid);
+    const token = await firebaseAuth.createCustomToken(
+      userRecord.uid
+    );
 
     return res.status(201).json({
       token,
@@ -302,7 +398,6 @@ app.post("/api/auth/signup", authLimiter, async (req, res) => {
       },
     });
   } catch (error) {
-    // Roll back a newly created Auth user if profile setup failed.
     if (createdUid) {
       try {
         await firebaseAuth.deleteUser(createdUid);
@@ -320,28 +415,36 @@ app.post("/api/auth/signup", authLimiter, async (req, res) => {
   }
 });
 
-// Verify a fresh OTP before signing in an existing phone account.
+// Login using phone number and OTP
 app.post("/api/auth/login", authLimiter, async (req, res) => {
   try {
     const phone = normalizePhone(req.body.phone);
     const { code } = req.body;
 
-    if (typeof code !== "string" || !/^\d{4,10}$/.test(code)) {
-      return res.status(400).json({ error: "Enter a valid OTP." });
+    if (
+      typeof code !== "string" ||
+      !/^\d{4,10}$/.test(code)
+    ) {
+      return res.status(400).json({
+        error: "Enter a valid OTP.",
+      });
     }
 
     const user = await findUserByPhone(phone);
 
     if (!user) {
       return res.status(404).json({
-        error: "No account found for this number. Please register first.",
+        error:
+          "No account found for this number. Please register first.",
       });
     }
 
     const approved = await verifyCode(phone, code);
 
     if (!approved) {
-      return res.status(400).json({ error: "Incorrect or expired OTP." });
+      return res.status(400).json({
+        error: "Incorrect or expired OTP.",
+      });
     }
 
     const token = await firebaseAuth.createCustomToken(user.uid);
@@ -364,6 +467,9 @@ app.post("/api/auth/login", authLimiter, async (req, res) => {
   }
 });
 
+// Start backend
 app.listen(PORT, () => {
-  console.log(`UNNATI authentication backend listening on port ${PORT}`);
+  console.log(
+    `UNNATI authentication backend listening on port ${PORT}`
+  );
 });

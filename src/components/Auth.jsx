@@ -1,9 +1,12 @@
+
 import { useState } from "react";
 import { signInWithCustomToken } from "firebase/auth";
 import { auth } from "../firebase";
 
-const API_BASE =
-  import.meta.env.VITE_AUTH_API_URL || "http://localhost:5000";
+// API URL: removes any extra trailing slash
+const API_BASE = (
+  import.meta.env.VITE_AUTH_API_URL || "http://localhost:5000"
+).replace(/\/+$/, "");
 
 const MAHARASHTRA_DISTRICTS = [
   "Ahilyanagar",
@@ -55,14 +58,18 @@ const AGE_GROUPS = [
 async function apiPost(path, body) {
   const response = await fetch(`${API_BASE}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(body),
   });
 
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    throw new Error(data.error || "Something went wrong. Please try again.");
+    throw new Error(
+      data.error || "Something went wrong. Please try again."
+    );
   }
 
   return data;
@@ -115,10 +122,12 @@ export default function Auth({ onLogin, required = true }) {
         setError("Please enter your full name.");
         return;
       }
+
       if (!district) {
         setError("Please select your district.");
         return;
       }
+
       if (!ageGroup) {
         setError("Please select your age group.");
         return;
@@ -202,7 +211,9 @@ export default function Auth({ onLogin, required = true }) {
         />
 
         <h2 id="unnati-auth-title">
-          {mode === "signup" ? "Create your UNNATI account" : "Welcome to UNNATI"}
+          {mode === "signup"
+            ? "Create your UNNATI account"
+            : "Welcome to UNNATI"}
         </h2>
 
         <p>
@@ -258,7 +269,9 @@ export default function Auth({ onLogin, required = true }) {
                 ))}
               </select>
 
-              <label htmlFor="auth-occupation">Occupation (optional)</label>
+              <label htmlFor="auth-occupation">
+                Occupation (optional)
+              </label>
               <input
                 id="auth-occupation"
                 type="text"
@@ -310,7 +323,11 @@ export default function Auth({ onLogin, required = true }) {
 
           {message && <p role="status">{message}</p>}
 
-          <button className="btn primary" type="submit" disabled={loading}>
+          <button
+            className="btn primary"
+            type="submit"
+            disabled={loading}
+          >
             {loading
               ? "Please wait..."
               : otpSent
@@ -333,12 +350,16 @@ export default function Auth({ onLogin, required = true }) {
         </form>
 
         <p>
-          {mode === "login" ? "New to UNNATI? " : "Already registered? "}
+          {mode === "login"
+            ? "New to UNNATI? "
+            : "Already registered? "}
           <button
             className="text-btn"
             type="button"
             disabled={loading}
-            onClick={() => resetForm(mode === "login" ? "signup" : "login")}
+            onClick={() =>
+              resetForm(mode === "login" ? "signup" : "login")
+            }
           >
             {mode === "login" ? "Create account" : "Login"}
           </button>
